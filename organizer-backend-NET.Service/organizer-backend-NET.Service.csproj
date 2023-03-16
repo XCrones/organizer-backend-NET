@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>organizer_backend_NET.Service</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\organizer-backend-NET.DAL\organizer-backend-NET.DAL.csproj" />
+    <ProjectReference Include="..\organizer-backend-NET.Domain\organizer-backend-NET.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

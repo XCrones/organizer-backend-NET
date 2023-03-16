@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>organizer_backend_NET.Domain</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Entity\OpenWeather\" />
+    <Folder Include="ViewModel\Weather\" />
+    <Folder Include="ViewModel\Calendar\" />
+  </ItemGroup>
+
+</Project>

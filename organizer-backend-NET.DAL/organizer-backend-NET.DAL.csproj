@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>organizer_backend_NET.DAL</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Npgsql" Version="7.0.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\organizer-backend-NET.Domain\organizer-backend-NET.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\IWeather\" />
+    <Folder Include="Interfaces\ICalendar\" />
+    <Folder Include="Interfaces\IUser\" />
+    <Folder Include="Repository\Weather\" />
+    <Folder Include="Repository\OpenWeather\" />
+    <Folder Include="Repository\User\" />
+  </ItemGroup>
+
+</Project>
