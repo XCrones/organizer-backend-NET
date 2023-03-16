@@ -1,6 +1,11 @@
+using organizer_backend_NET;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+Services.InitDataBase(builder);
+Services.InitRepositories(builder);
+Services.InitServices(builder);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
