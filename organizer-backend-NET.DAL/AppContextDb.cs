@@ -11,9 +11,5 @@ namespace organizer_backend_NET.DAL
         }
 
         public DbSet<Todo> TodoDB { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Host=localhost;Port=5434;Database=postgres;Username=admin;Password=root");
-
     }
 }
