@@ -10,7 +10,7 @@ namespace organizer_backend_NET.Domain.Entity.Weather
         public int Uid { get; set; }
 
         [Column(TypeName = "jsonb")]
-        public List<Cities> cities { get; set; }
+        public List<CityWeather> cities { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -19,7 +19,7 @@ namespace organizer_backend_NET.Domain.Entity.Weather
         public DateTime? DeleteAt { get; set; }
     }
 
-    public class Cities
+    public class CityWeather
     {
         public int id { get; set; }
 
