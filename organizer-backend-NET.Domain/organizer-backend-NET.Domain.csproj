@@ -10,7 +10,6 @@
   <ItemGroup>
     <Folder Include="Entity\OpenWeather\" />
     <Folder Include="ViewModel\Weather\" />
-    <Folder Include="ViewModel\Calendar\" />
   </ItemGroup>
 
 </Project>
