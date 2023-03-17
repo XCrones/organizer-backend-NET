@@ -13,7 +13,7 @@ namespace organizer_backend_NET.DAL.Repository.Todo
 
         public async Task<bool> Create(Domain.Entity.Todo.Todo entity)
         {
-            await _db.AddAsync(entity);
+            await _db.TodoDB.AddAsync(entity);
             await _db.SaveChangesAsync();
             return true;
         }
@@ -22,7 +22,7 @@ namespace organizer_backend_NET.DAL.Repository.Todo
 
         public async Task<Domain.Entity.Todo.Todo> Update(Domain.Entity.Todo.Todo entity)
         {
-            _db.Update(entity);
+            _db.TodoDB.Update(entity);
             await _db.SaveChangesAsync();
             return entity;
         }
