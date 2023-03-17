@@ -12,7 +12,7 @@ namespace organizer_backend_NET.Service.Interfaces.IBaseService
 
         Task<IBaseResponse<TD>> GetItemByName(string name);
 
-        Task<IBaseResponse<bool>> DeleteItem(int id);
+        Task<IBaseResponse<bool>> RemoveItem(int id);
 
         Task<IBaseResponse<bool>> CreateItem(VM viewModel);
 
