@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace organizer_backend_NET.Domain.Enum
 {
-    public enum TPriority
+    public enum TPriority : byte
     {
         [Display(Name = "Hight")]
         HIGHT = 0,
