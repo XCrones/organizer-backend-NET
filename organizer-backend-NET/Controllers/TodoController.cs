@@ -2,13 +2,13 @@
 using organizer_backend_NET.Domain.Entity.Todo;
 using organizer_backend_NET.Domain.Interfaces.IResponse;
 using organizer_backend_NET.Domain.ViewModel.Todo;
+using organizer_backend_NET.Interfaces.IControllers;
 using organizer_backend_NET.Service.Interfaces.ITodo;
 
 namespace organizer_backend_NET.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class TodoController : Controller
+    [ApiController, Route("api/[controller]")]
+    public class TodoController : Controller, ITodo_Controller
     {
         private readonly ITodoService _todoService;
 
@@ -17,12 +17,17 @@ namespace organizer_backend_NET.Controllers
             _todoService = todoService;
         }
 
+        [HttpPost]
+        public async Task<IBaseResponse<bool>> Create(TodoViewModel model)
+        {
+            return await _todoService.CreateItem(model);
+        }
+
         [HttpGet]
-        public async Task<IBaseResponse<IEnumerable<Todo>>> Get()
+        public async Task<IBaseResponse<IEnumerable<Todo>>> GetAll()
         {
             return await _todoService.GetAll();
         }
-
 
         [HttpGet("{id}")]
         public async Task<IBaseResponse<Todo>> GetOne(int id)
@@ -30,28 +35,22 @@ namespace organizer_backend_NET.Controllers
             return await _todoService.GetItemById(id);
         }
 
-        [HttpPost]
-        public async Task<IBaseResponse<bool>> Create(TodoViewModel model)
-        {
-            return await _todoService.CreateItem(model);
-        }
-
-        [HttpPatch]
-        public async Task<IBaseResponse<Todo>> Save(TodoViewModel todo)
-        {
-            return await _todoService.EditItem(todo.Id, todo);
-        }
-
         [HttpDelete("{id}")]
         public async Task<IBaseResponse<bool>> Remove(int id)
         {
-            return await _todoService.DeleteItem(id);
+            return await _todoService.RemoveItem(id);
         }
 
         [HttpPost("restore/{id}")]
         public async Task<IBaseResponse<Todo>> Restore(int id)
         {
             return await _todoService.RestoreItem(id);
+        }
+
+        [HttpPatch]
+        public async Task<IBaseResponse<Todo>> Save(TodoViewModel todo)
+        {
+            return await _todoService.EditItem(todo.Id, todo);
         }
     }
 }
