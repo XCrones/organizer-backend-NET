@@ -6,7 +6,7 @@ namespace organizer_backend_NET.Domain.Interfaces.IResponse
     {
         public string? Descritption { get; set; }
 
-        public TStatusCode StatusCode { get; set; }
+        public EStatusCode StatusCode { get; set; }
 
         public T Data { get; set; }
     }
