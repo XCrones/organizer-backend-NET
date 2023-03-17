@@ -1,10 +1,11 @@
-﻿using organizer_backend_NET.Domain.Enum;
+﻿using organizer_backend_NET.DAL.Interfaces.ITiming;
+using organizer_backend_NET.Domain.Enum;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace organizer_backend_NET.Domain.Entity.Todo
 {
     [Table("Todo")]
-    public class Todo
+    public class Todo : ITiming
     {
         public int Id { get; set; }
         public int Uid { get; set; }
