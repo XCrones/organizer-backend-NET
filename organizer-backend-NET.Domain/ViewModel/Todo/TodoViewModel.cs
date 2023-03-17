@@ -6,27 +6,22 @@ namespace organizer_backend_NET.Domain.ViewModel.Todo
     {
         public int Id { get; set; }
 
-        [StringLength(50, MinimumLength = 3)]
-        [Required]
+        [Required, StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
 
-        [StringLength(50, MinimumLength = 3)]
-        [Required]
+        [Required, StringLength(50, MinimumLength = 3)]
         public string Category { get; set; }
 
-        [StringLength(1, MinimumLength = 1)]
-        [Required]
-        public string Priority { get; set; }
+        [Required, StringLength(1, MinimumLength = 1)]
+        public string Priority { get; set; } //!
 
-        [DataType(DataType.DateTime)]
-        [Required]
+        [Required, DataType(DataType.DateTime)]
         public DateTime DeadLine { get; set; }
 
         [Required]
         public bool Status { get; set; }
 
-        [StringLength(20, MinimumLength = 4)]
-        [Required]
+        [Required, StringLength(20, MinimumLength = 4)]
         public string Background { get; set; }
     }
 }
