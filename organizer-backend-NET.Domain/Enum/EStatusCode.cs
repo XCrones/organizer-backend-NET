@@ -1,6 +1,6 @@
 ﻿namespace organizer_backend_NET.Domain.Enum
 {
-    public enum TStatusCode
+    public enum EStatusCode
     {
         OK = 200,
         Edited = 201,
