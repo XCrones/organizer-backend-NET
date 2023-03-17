@@ -17,7 +17,7 @@ namespace organizer_backend_NET.Domain.Entity.Weather
         public List<WeatherItem> weather { get; set; }
 
         [Column(TypeName = "jsonb")]
-        public City city { get; set; }
+        public CityForecast city { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -27,7 +27,7 @@ namespace organizer_backend_NET.Domain.Entity.Weather
     }
 
 
-    public class City 
+    public class CityForecast 
     { 
         public int id { get; set; }
 
