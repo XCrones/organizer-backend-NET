@@ -4,7 +4,6 @@ namespace organizer_backend_NET.Domain.ViewModel.Todo
 {
     public class TodoViewModel
     {
-        public int Id { get; set; }
 
         [StringLength(20, MinimumLength = 3)]
         [Display(Name = "Name")]
