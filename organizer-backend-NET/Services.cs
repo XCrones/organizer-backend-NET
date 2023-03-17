@@ -21,7 +21,7 @@ namespace organizer_backend_NET
 
         public static void InitDataBase(this WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<AppContextDb>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("AppContextDb")));
+            builder.Services.AddDbContext<AppContextDb>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("AppContextDb"))); //Integrated Security=true;Pooling=true;
         }
     }
 }
