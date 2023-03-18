@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using organizer_backend_NET.DAL.Interfaces.ICalendar;
 using organizer_backend_NET.Domain.Common;
-using organizer_backend_NET.Domain.Entity.Calendar;
+using organizer_backend_NET.Domain.Entity;
 using organizer_backend_NET.Domain.Enum;
 using organizer_backend_NET.Domain.Interfaces.IResponse;
 using organizer_backend_NET.Domain.Response.BaseResponse;
@@ -32,7 +32,7 @@ namespace organizer_backend_NET.Service.Services.CalendarService
                     EventStart = viewModel.EventStart,
                     EventEnd = viewModel.EventEnd,
                     Description = viewModel.Description,
-                    Uid = 1, //!
+                    UId = 1, //!
                     CreatedAt = timeStamp,
                     UpdatedAt = timeStamp,
                 };
