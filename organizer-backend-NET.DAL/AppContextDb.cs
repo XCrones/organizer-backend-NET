@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using organizer_backend_NET.Domain.Entity.Calendar;
-using organizer_backend_NET.Domain.Entity.Todo;
-using organizer_backend_NET.Domain.Entity.Weather;
+using organizer_backend_NET.Domain.Entity;
 
 namespace organizer_backend_NET.DAL
 {
@@ -15,77 +13,88 @@ namespace organizer_backend_NET.DAL
 
         public DbSet<Calendar> CalendarDB { get; set; }
 
-        public DbSet<Forecast> ForecastDB { get; set; }
+        public DbSet<WeatherForecast> ForecastDB { get; set; }
 
-        public DbSet<WeatherUser> WeatherUserDB { get; set; }
+        public DbSet<UserWeather> WeatherUserDB { get; set; }
+
+        public DbSet<User> UserDB { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Todo>(entity => {
-                entity.ToTable("Todo");
+            modelBuilder.Entity<User>(entity => {
 
-                entity.Property(e => e.Id).HasColumnName("Id").ValueGeneratedOnAdd();
+                entity.Property(e => e.UId);
 
-                entity.Property(e => e.Uid).HasColumnName("Uid");
-                entity.Property(e => e.Name).HasColumnName("Name").HasMaxLength(50);
-                entity.Property(e => e.Category).HasColumnName("Category").HasMaxLength(50);
-                entity.Property(e => e.Priority).HasColumnName("Priority");
-                entity.Property(e => e.DeadLine).HasColumnName("DeadLine");
-                entity.Property(e => e.Status).HasColumnName("Status");
-                entity.Property(e => e.Background).HasColumnName("Background").HasMaxLength(20);
+                entity.Property(e => e.Name);
+                entity.Property(e => e.Email);
+                entity.Property(e => e.Password);
+                entity.Property(e => e.UrlAvatar);
 
-                entity.Property(e => e.CreatedAt).HasColumnName("CreatedAt");
-                entity.Property(e => e.UpdatedAt).HasColumnName("UpdatedAt");
-                entity.Property(e => e.DeleteAt).HasColumnName("DeleteAt");
+                entity.Property(e => e.CreatedAt);
+                entity.Property(e => e.UpdatedAt);
+                entity.Property(e => e.DeleteAt);
             });
-
 
             modelBuilder.Entity<Calendar>(entity => {
-                entity.ToTable("Calendar");
 
-                entity.Property(e => e.Id).HasColumnName("Id").ValueGeneratedOnAdd();
+                entity.Property(e => e.Id);
 
-                entity.Property(e => e.Uid).HasColumnName("Uid");
-                entity.Property(e => e.Name).HasColumnName("Name").HasMaxLength(50);
-                entity.Property(e => e.EventStart).HasColumnName("EventStart");
-                entity.Property(e => e.EventEnd).HasColumnName("EventEnd");
-                entity.Property(e => e.Description).HasColumnName("Description").HasMaxLength(100);
-                entity.Property(e => e.Background).HasColumnName("Background").HasMaxLength(20);
+                entity.Property(e => e.UId);
+                entity.Property(e => e.Name);
+                entity.Property(e => e.EventStart);
+                entity.Property(e => e.EventEnd);
+                entity.Property(e => e.Description);
+                entity.Property(e => e.Background);
 
-                entity.Property(e => e.CreatedAt).HasColumnName("CreatedAt");
-                entity.Property(e => e.UpdatedAt).HasColumnName("UpdatedAt");
-                entity.Property(e => e.DeleteAt).HasColumnName("DeleteAt");
+                entity.Property(e => e.CreatedAt);
+                entity.Property(e => e.UpdatedAt);
+                entity.Property(e => e.DeleteAt);
             });
 
-            modelBuilder.Entity<Forecast>(entity => {
-                entity.ToTable("Forecast");
+            modelBuilder.Entity<Todo>(entity => {
 
-                entity.Property(e => e.Id).HasColumnName("Id").ValueGeneratedOnAdd();
+                entity.Property(e => e.Id);
 
-                entity.Property(e => e.cod).HasColumnName("cod");
-                entity.Property(e => e.cnt).HasColumnName("cnt");
-                entity.Property(e => e.message).HasColumnName("message");
-                entity.Property(e => e.weather).HasColumnName("weather");
-                entity.Property(e => e.city).HasColumnName("city");
+                entity.Property(e => e.UId);
+                entity.Property(e => e.Name);
+                entity.Property(e => e.Category);
+                entity.Property(e => e.Priority);
+                entity.Property(e => e.DeadLine);
+                entity.Property(e => e.Status);
+                entity.Property(e => e.Background);
 
-                entity.Property(e => e.CreatedAt).HasColumnName("CreatedAt");
-                entity.Property(e => e.UpdatedAt).HasColumnName("UpdatedAt");
-                entity.Property(e => e.DeleteAt).HasColumnName("DeleteAt");
+                entity.Property(e => e.CreatedAt);
+                entity.Property(e => e.UpdatedAt);
+                entity.Property(e => e.DeleteAt);
             });
 
-            modelBuilder.Entity<WeatherUser>(entity => {
-                entity.ToTable("Weather");
+            modelBuilder.Entity<UserWeather>(entity => {
 
-                entity.Property(e => e.Id).HasColumnName("Id").ValueGeneratedOnAdd();
+                entity.Property(e => e.Id);
 
-                entity.Property(e => e.Uid).HasColumnName("Uid");
-                entity.Property(e => e.cities).HasColumnName("cities");
+                entity.Property(e => e.UId);
+                entity.Property(e => e.Cities);
 
-                entity.Property(e => e.CreatedAt).HasColumnName("CreatedAt");
-                entity.Property(e => e.UpdatedAt).HasColumnName("UpdatedAt");
-                entity.Property(e => e.DeleteAt).HasColumnName("DeleteAt");
+                entity.Property(e => e.CreatedAt);
+                entity.Property(e => e.UpdatedAt);
+                entity.Property(e => e.DeleteAt);
+            });
+
+            modelBuilder.Entity<WeatherForecast>(entity => {
+
+                entity.Property(e => e.Id);
+
+                entity.Property(e => e.cod);
+                entity.Property(e => e.cnt);
+                entity.Property(e => e.message);
+                entity.Property(e => e.weather);
+                entity.Property(e => e.city);
+
+                entity.Property(e => e.CreatedAt);
+                entity.Property(e => e.UpdatedAt);
+                entity.Property(e => e.DeleteAt);
             });
         }
 
