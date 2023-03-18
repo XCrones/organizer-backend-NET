@@ -22,10 +22,4 @@
     <ProjectReference Include="..\organizer-backend-NET.Domain\organizer-backend-NET.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repository\Weather\" />
-    <Folder Include="Repository\OpenWeather\" />
-    <Folder Include="Repository\User\" />
-  </ItemGroup>
-
 </Project>

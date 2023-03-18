@@ -1,7 +1,6 @@
-﻿
-using organizer_backend_NET.DAL.Interfaces;
+﻿using organizer_backend_NET.DAL.Interfaces;
 
-namespace organizer_backend_NET.DAL.Repository.Calendar
+namespace organizer_backend_NET.DAL.Repository
 {
     public class CalendarRepository : ICalendarRepository
     {
