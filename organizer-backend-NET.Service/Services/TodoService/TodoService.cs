@@ -2,11 +2,11 @@
 using organizer_backend_NET.Domain.Interfaces.IResponse;
 using organizer_backend_NET.Domain.ViewModel.Todo;
 using organizer_backend_NET.Service.Interfaces.ITodo;
-using organizer_backend_NET.Domain.Entity.Todo;
 using organizer_backend_NET.Domain.Enum;
 using organizer_backend_NET.Domain.Response.BaseResponse;
 using Microsoft.EntityFrameworkCore;
 using organizer_backend_NET.Domain.Common;
+using organizer_backend_NET.Domain.Entity;
 
 namespace organizer_backend_NET.Service.Services.TodoService
 {
@@ -31,7 +31,7 @@ namespace organizer_backend_NET.Service.Services.TodoService
                     Background = viewModel.Background,
                     Category = viewModel.Category,
                     Status = false,
-                    Uid = 1, //!
+                    UId = 1, //!
                     DeadLine = viewModel.DeadLine,
                     Priority = (EPriority)Convert.ToInt32(viewModel.Priority), //!
                     UpdatedAt = timeStamp,

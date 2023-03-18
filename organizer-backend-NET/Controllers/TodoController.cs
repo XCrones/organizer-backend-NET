@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using organizer_backend_NET.Domain.Entity.Todo;
+using organizer_backend_NET.Domain.Entity;
 using organizer_backend_NET.Domain.Interfaces.IResponse;
 using organizer_backend_NET.Domain.ViewModel.Todo;
 using organizer_backend_NET.Interfaces.IControllers;

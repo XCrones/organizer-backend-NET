@@ -11,23 +11,23 @@ namespace organizer_backend_NET.DAL.Repository.Todo
             _db = db;
         }
 
-        public async Task<bool> Create(Domain.Entity.Todo.Todo entity)
+        public async Task<bool> Create(Domain.Entity.Todo entity)
         {
             await _db.TodoDB.AddAsync(entity);
             await _db.SaveChangesAsync();
             return true;
         }
 
-        public IQueryable<Domain.Entity.Todo.Todo> Read() => _db.TodoDB;
+        public IQueryable<Domain.Entity.Todo> Read() => _db.TodoDB;
 
-        public async Task<Domain.Entity.Todo.Todo> Update(Domain.Entity.Todo.Todo entity)
+        public async Task<Domain.Entity.Todo> Update(Domain.Entity.Todo entity)
         {
             _db.TodoDB.Update(entity);
             await _db.SaveChangesAsync();
             return entity;
         }
 
-        public async Task<bool> Delete(Domain.Entity.Todo.Todo entity)
+        public async Task<bool> Delete(Domain.Entity.Todo entity)
         {
             _db.TodoDB.Remove(entity);
             await _db.SaveChangesAsync();
