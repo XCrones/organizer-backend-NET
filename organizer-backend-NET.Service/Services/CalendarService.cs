@@ -9,7 +9,7 @@ using organizer_backend_NET.Domain.Response.BaseResponse;
 using organizer_backend_NET.Domain.ViewModel.Calendar;
 using organizer_backend_NET.Service.Interfaces.ICalendarService;
 
-namespace organizer_backend_NET.Service.Services.CalendarService
+namespace organizer_backend_NET.Service.Services
 {
     public class CalendarService : ICalendarService
     {
@@ -26,7 +26,8 @@ namespace organizer_backend_NET.Service.Services.CalendarService
             {
                 DateTime timeStamp = DateTime.UtcNow;
 
-                var newEvent = new Calendar() {
+                var newEvent = new Calendar()
+                {
                     Background = viewModel.Background,
                     Name = viewModel.Name,
                     EventStart = viewModel.EventStart,
@@ -46,7 +47,8 @@ namespace organizer_backend_NET.Service.Services.CalendarService
                 };
 
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new BaseResponse<bool>()
                 {
@@ -80,7 +82,8 @@ namespace organizer_backend_NET.Service.Services.CalendarService
                     StatusCode = EStatusCode.OK,
                     Data = true,
                 };
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new BaseResponse<bool>()
                 {
@@ -122,7 +125,8 @@ namespace organizer_backend_NET.Service.Services.CalendarService
                     Data = response,
                 };
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new BaseResponse<Calendar>()
                 {

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using organizer_backend_NET.Domain.Common;
 using organizer_backend_NET.Domain.Entity;
 
-namespace organizer_backend_NET.Service.Services.TodoService
+namespace organizer_backend_NET.Service.Services
 {
     public class TodoService : ITodoService
     {
@@ -249,7 +249,7 @@ namespace organizer_backend_NET.Service.Services.TodoService
                 {
                     Descritption = ResponseMessage.RESTORE_SUCCES,
                     StatusCode = EStatusCode.OK,
-                    Data= itemResponse,
+                    Data = itemResponse,
                 };
 
             }
