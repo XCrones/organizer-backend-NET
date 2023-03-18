@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace organizer_backend_NET.Domain.ViewModel.Todo
+namespace organizer_backend_NET.Domain.ViewModel
 {
     public class TodoViewModel
     {
@@ -13,7 +13,7 @@ namespace organizer_backend_NET.Domain.ViewModel.Todo
         public string Category { get; set; }
 
         [Required, StringLength(1, MinimumLength = 1)]
-        public string Priority { get; set; } //!
+        public int Priority { get; set; } //!
 
         [Required, DataType(DataType.DateTime)]
         public DateTime DeadLine { get; set; }

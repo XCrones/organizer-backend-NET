@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using organizer_backend_NET.Domain.Interfaces.IResponse;
 using organizer_backend_NET.Domain.Response.BaseResponse;
-using organizer_backend_NET.Domain.ViewModel.User;
+using organizer_backend_NET.Domain.ViewModel;
+using organizer_backend_NET.Domain.ViewModel.Login;
 
 namespace organizer_backend_NET.Controllers
 {

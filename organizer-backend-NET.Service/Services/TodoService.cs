@@ -1,12 +1,12 @@
 ﻿using organizer_backend_NET.DAL.Interfaces.ITodo;
 using organizer_backend_NET.Domain.Interfaces.IResponse;
-using organizer_backend_NET.Domain.ViewModel.Todo;
 using organizer_backend_NET.Domain.Enum;
 using organizer_backend_NET.Domain.Response.BaseResponse;
 using Microsoft.EntityFrameworkCore;
 using organizer_backend_NET.Domain.Common;
 using organizer_backend_NET.Domain.Entity;
 using organizer_backend_NET.Service.Interfaces;
+using organizer_backend_NET.Domain.ViewModel;
 
 namespace organizer_backend_NET.Service.Services
 {

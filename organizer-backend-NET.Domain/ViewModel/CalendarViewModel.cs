@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace organizer_backend_NET.Domain.ViewModel.Calendar
+namespace organizer_backend_NET.Domain.ViewModel
 {
     public class CalendarViewModel
     {
