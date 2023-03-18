@@ -23,8 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\IWeather\" />
-    <Folder Include="Interfaces\IUser\" />
     <Folder Include="Repository\Weather\" />
     <Folder Include="Repository\OpenWeather\" />
     <Folder Include="Repository\User\" />

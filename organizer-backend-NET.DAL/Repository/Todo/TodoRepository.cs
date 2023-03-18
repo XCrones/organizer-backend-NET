@@ -1,4 +1,4 @@
-﻿using organizer_backend_NET.DAL.Interfaces.ITodo;
+﻿using organizer_backend_NET.DAL.Interfaces;
 
 namespace organizer_backend_NET.DAL.Repository.Todo
 {

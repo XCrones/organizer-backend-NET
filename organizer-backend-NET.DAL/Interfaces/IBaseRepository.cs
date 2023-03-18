@@ -1,4 +1,4 @@
-﻿namespace organizer_backend_NET.DAL.Interfaces.IBase
+﻿namespace organizer_backend_NET.DAL.Interfaces
 {
     public interface IBaseRepository<T>
     {

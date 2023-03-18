@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using organizer_backend_NET.DAL.Interfaces.ICalendar;
+using organizer_backend_NET.DAL.Interfaces;
 using organizer_backend_NET.Domain.Common;
 using organizer_backend_NET.Domain.Entity;
 using organizer_backend_NET.Domain.Enum;

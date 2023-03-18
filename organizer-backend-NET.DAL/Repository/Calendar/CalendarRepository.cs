@@ -1,5 +1,5 @@
 ﻿
-using organizer_backend_NET.DAL.Interfaces.ICalendar;
+using organizer_backend_NET.DAL.Interfaces;
 
 namespace organizer_backend_NET.DAL.Repository.Calendar
 {
