@@ -1,7 +1,7 @@
 ﻿using organizer_backend_NET.Domain.Enum;
 using organizer_backend_NET.Domain.Interfaces.IResponse;
 
-namespace organizer_backend_NET.Domain.Response.BaseResponse
+namespace organizer_backend_NET.Domain.Response
 {
     public class BaseResponse<T> : IBaseResponse<T>
     {
