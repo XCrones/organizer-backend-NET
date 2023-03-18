@@ -1,6 +1,6 @@
 ﻿using organizer_backend_NET.Domain.Enum;
 
-namespace organizer_backend_NET.Domain.Interfaces.IResponse
+namespace organizer_backend_NET.Domain.Interfaces
 {
     public interface IBaseResponse<T>
     {

@@ -1,5 +1,4 @@
-﻿using organizer_backend_NET.Domain.Interfaces.IBaseEntity;
-using organizer_backend_NET.Domain.Interfaces.IUId;
+﻿using organizer_backend_NET.Domain.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace organizer_backend_NET.Domain.Entity

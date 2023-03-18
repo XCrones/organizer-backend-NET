@@ -1,4 +1,4 @@
-﻿using organizer_backend_NET.Domain.Interfaces.IResponse;
+﻿using organizer_backend_NET.Domain.Interfaces;
 
 namespace organizer_backend_NET.Service.Interfaces
 {

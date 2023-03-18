@@ -1,5 +1,5 @@
 ﻿using organizer_backend_NET.Domain.Enum;
-using organizer_backend_NET.Domain.Interfaces.IResponse;
+using organizer_backend_NET.Domain.Interfaces;
 
 namespace organizer_backend_NET.Domain.Response
 {

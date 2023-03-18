@@ -4,7 +4,7 @@ using organizer_backend_NET.DAL.Interfaces.ICalendar;
 using organizer_backend_NET.Domain.Common;
 using organizer_backend_NET.Domain.Entity;
 using organizer_backend_NET.Domain.Enum;
-using organizer_backend_NET.Domain.Interfaces.IResponse;
+using organizer_backend_NET.Domain.Interfaces;
 using organizer_backend_NET.Domain.Response.BaseResponse;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Service.Interfaces;

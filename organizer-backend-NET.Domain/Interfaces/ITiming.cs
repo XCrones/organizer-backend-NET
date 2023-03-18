@@ -1,4 +1,4 @@
-﻿namespace organizer_backend_NET.DAL.Interfaces.ITiming
+﻿namespace organizer_backend_NET.Domain.Interfaces
 {
     public interface ITiming
     {

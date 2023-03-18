@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using organizer_backend_NET.Domain.Interfaces.IResponse;
+using organizer_backend_NET.Domain.Interfaces;
 using organizer_backend_NET.Domain.Response.BaseResponse;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Domain.ViewModel.Login;
