@@ -2,11 +2,10 @@
 using organizer_backend_NET.DAL;
 using organizer_backend_NET.DAL.Interfaces.ITodo;
 using organizer_backend_NET.DAL.Repository.Todo;
-using organizer_backend_NET.Service.Interfaces.ITodo;
 using organizer_backend_NET.DAL.Interfaces.ICalendar;
 using organizer_backend_NET.DAL.Repository.Calendar;
-using organizer_backend_NET.Service.Interfaces.ICalendarService;
 using organizer_backend_NET.Service.Services;
+using organizer_backend_NET.Service.Interfaces;
 
 namespace organizer_backend_NET
 {

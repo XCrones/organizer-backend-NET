@@ -3,7 +3,7 @@ using organizer_backend_NET.Domain.Entity;
 using organizer_backend_NET.Domain.Interfaces.IResponse;
 using organizer_backend_NET.Domain.ViewModel.Calendar;
 using organizer_backend_NET.Interfaces.IControllers;
-using organizer_backend_NET.Service.Interfaces.ICalendarService;
+using organizer_backend_NET.Service.Interfaces;
 
 namespace organizer_backend_NET.Controllers
 {

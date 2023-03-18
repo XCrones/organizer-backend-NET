@@ -1,8 +1,6 @@
-﻿
+﻿using organizer_backend_NET.Domain.Interfaces.IResponse;
 
-using organizer_backend_NET.Domain.Interfaces.IResponse;
-
-namespace organizer_backend_NET.Service.Interfaces.IBaseService
+namespace organizer_backend_NET.Service.Interfaces
 {
     public interface IBaseService<TD, VM>
     {

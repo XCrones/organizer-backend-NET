@@ -7,7 +7,7 @@ using organizer_backend_NET.Domain.Enum;
 using organizer_backend_NET.Domain.Interfaces.IResponse;
 using organizer_backend_NET.Domain.Response.BaseResponse;
 using organizer_backend_NET.Domain.ViewModel.Calendar;
-using organizer_backend_NET.Service.Interfaces.ICalendarService;
+using organizer_backend_NET.Service.Interfaces;
 
 namespace organizer_backend_NET.Service.Services
 {
