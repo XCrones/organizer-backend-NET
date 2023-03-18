@@ -1,5 +1,5 @@
 ﻿using organizer_backend_NET.Domain.Enum;
-using organizer_backend_NET.Domain.Response.BaseResponse;
+using organizer_backend_NET.Domain.Response;
 using Microsoft.EntityFrameworkCore;
 using organizer_backend_NET.Domain.Common;
 using organizer_backend_NET.Domain.Entity;
