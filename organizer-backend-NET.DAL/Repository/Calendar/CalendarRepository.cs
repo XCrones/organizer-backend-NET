@@ -12,23 +12,23 @@ namespace organizer_backend_NET.DAL.Repository.Calendar
             _db = db;
         }
 
-        public async Task<bool> Create(Domain.Entity.Calendar.Calendar entity)
+        public async Task<bool> Create(Domain.Entity.Calendar entity)
         {
             await _db.CalendarDB.AddAsync(entity);
             await _db.SaveChangesAsync();
             return true;
         }
 
-        public async Task<bool> Delete(Domain.Entity.Calendar.Calendar entity)
+        public async Task<bool> Delete(Domain.Entity.Calendar entity)
         {
             _db.CalendarDB.Remove(entity);
             await _db.SaveChangesAsync();
             return true;
         }
 
-        public IQueryable<Domain.Entity.Calendar.Calendar> Read() => _db.CalendarDB;
+        public IQueryable<Domain.Entity.Calendar> Read() => _db.CalendarDB;
 
-        public async Task<Domain.Entity.Calendar.Calendar> Update(Domain.Entity.Calendar.Calendar entity)
+        public async Task<Domain.Entity.Calendar> Update(Domain.Entity.Calendar entity)
         {
             _db.CalendarDB.Update(entity);
             await _db.SaveChangesAsync();
