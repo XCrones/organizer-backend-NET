@@ -10,7 +10,7 @@ namespace organizer_backend_NET.Interfaces.IControllers
 
         public Task<IBaseResponse<bool>> Create(VM model);
 
-        public Task<IBaseResponse<TD>> Save(VM todo);
+        public Task<IBaseResponse<TD>> Save(int id, VM todo);
 
         public Task<IBaseResponse<bool>> Remove(int id);
 

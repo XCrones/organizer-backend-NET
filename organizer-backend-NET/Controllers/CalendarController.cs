@@ -47,10 +47,10 @@ namespace organizer_backend_NET.Controllers
             return await _calendarService.RestoreItem(id);
         }
 
-        [HttpPatch]
-        public async Task<IBaseResponse<Calendar>> Save(CalendarViewModel todo)
+        [HttpPatch("{id}")]
+        public async Task<IBaseResponse<Calendar>> Save(int id, CalendarViewModel model)
         {
-            return await _calendarService.EditItem(todo.Id, todo);
+            return await _calendarService.EditItem(id, model);
         }
     }
 }

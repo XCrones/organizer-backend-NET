@@ -47,10 +47,10 @@ namespace organizer_backend_NET.Controllers
             return await _todoService.RestoreItem(id);
         }
 
-        [HttpPatch]
-        public async Task<IBaseResponse<Todo>> Save(TodoViewModel todo)
+        [HttpPatch("{id}")]
+        public async Task<IBaseResponse<Todo>> Save(int id, TodoViewModel model)
         {
-            return await _todoService.EditItem(todo.Id, todo);
+            return await _todoService.EditItem(id, model);
         }
     }
 }
