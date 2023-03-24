@@ -14,7 +14,7 @@ using organizer_backend_NET.Domain.Entity;
 namespace organizer_backend_NET.DAL.Migrations
 {
     [DbContext(typeof(AppContextDb))]
-    [Migration("20230324064145_InitialCreate")]
+    [Migration("20230324082406_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
