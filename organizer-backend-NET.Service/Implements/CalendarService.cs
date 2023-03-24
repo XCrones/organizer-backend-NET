@@ -19,7 +19,7 @@ namespace organizer_backend_NET.Implements.Services
             _repository = calendarRepository;
         }
 
-        public async Task<IBaseResponse<bool>> CreateItem(CalendarViewModel viewModel)
+        public async Task<IBaseResponse<bool>> CreateItem(int UId, CalendarViewModel viewModel)
         {
             try
             {
@@ -27,12 +27,12 @@ namespace organizer_backend_NET.Implements.Services
 
                 var newEvent = new Calendar()
                 {
-                    Background = viewModel.Background,
+                    UId = UId,
                     Name = viewModel.Name,
                     EventStart = viewModel.EventStart,
                     EventEnd = viewModel.EventEnd,
                     Description = viewModel.Description,
-                    UId = 1, //!
+                    Background = viewModel.Background,
                     CreatedAt = timeStamp,
                     UpdatedAt = timeStamp,
                 };
@@ -57,11 +57,11 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public async Task<IBaseResponse<bool>> RemoveItem(int id)
+        public async Task<IBaseResponse<bool>> RemoveItem(int UId, int id)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
@@ -92,12 +92,12 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public async Task<IBaseResponse<Calendar>> EditItem(int id, CalendarViewModel viewModel)
+        public async Task<IBaseResponse<Calendar>> EditItem(int UId, int id, CalendarViewModel viewModel)
         {
             try
             {
 
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
@@ -135,11 +135,11 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<Calendar>>> GetAll()
+        public async Task<IBaseResponse<IEnumerable<Calendar>>> GetAll(int UId)
         {
             try
             {
-                var itemsResponse = await _repository.Read().Where(item => item.DeleteAt == null).ToListAsync();
+                var itemsResponse = await _repository.Read().Where(item => item.UId == UId && item.DeleteAt == null).ToListAsync();
 
                 if (itemsResponse == null)
                 {
@@ -166,11 +166,11 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public async Task<IBaseResponse<Calendar>> GetItemById(int id)
+        public async Task<IBaseResponse<Calendar>> GetItemById(int UId, int id)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
@@ -198,11 +198,11 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public async Task<IBaseResponse<Calendar>> GetItemByName(string name)
+        public async Task<IBaseResponse<Calendar>> GetItemByName(int UId, string name)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Name == name && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Name == name && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
@@ -229,11 +229,11 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public async Task<IBaseResponse<Calendar>> RestoreItem(int id)
+        public async Task<IBaseResponse<Calendar>> RestoreItem(int UId, int id)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt != null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt != null);
 
                 if (itemResponse == null)
                 {

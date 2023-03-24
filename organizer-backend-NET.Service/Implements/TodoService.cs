@@ -19,7 +19,7 @@ namespace organizer_backend_NET.Implements.Services
             _repository = todoRespository;
         }
 
-        public async Task<IBaseResponse<bool>> CreateItem(TodoViewModel viewModel)
+        public async Task<IBaseResponse<bool>> CreateItem(int UId ,TodoViewModel viewModel)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 var newItem = new Todo()
                 {
-                    UId = 1, //!
+                    UId = UId,
                     Name = viewModel.Name,
                     Background = viewModel.Background,
                     Category = viewModel.Category,
@@ -56,11 +56,11 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public async Task<IBaseResponse<bool>> RemoveItem(int id)
+        public async Task<IBaseResponse<bool>> RemoveItem(int UId, int id)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
@@ -92,11 +92,11 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public async Task<IBaseResponse<Todo>> EditItem(int id, TodoViewModel viewModel)
+        public async Task<IBaseResponse<Todo>> EditItem(int UId, int id, TodoViewModel viewModel)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
@@ -133,11 +133,11 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<Todo>>> GetAll()
+        public async Task<IBaseResponse<IEnumerable<Todo>>> GetAll(int UId)
         {
             try
             {
-                var itemsResponse = await _repository.Read().Where(item => item.DeleteAt == null).ToListAsync();
+                var itemsResponse = await _repository.Read().Where(item => item.UId == UId && item.DeleteAt == null).ToListAsync();
 
                 if (itemsResponse == null)
                 {
@@ -164,11 +164,11 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public async Task<IBaseResponse<Todo>> GetItemById(int id)
+        public async Task<IBaseResponse<Todo>> GetItemById(int UId, int id)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
@@ -196,11 +196,11 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public async Task<IBaseResponse<Todo>> GetItemByName(string name)
+        public async Task<IBaseResponse<Todo>> GetItemByName(int UId, string name)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Name == name && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Name == name && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
@@ -227,11 +227,11 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public async Task<IBaseResponse<Todo>> RestoreItem(int id)
+        public async Task<IBaseResponse<Todo>> RestoreItem(int UId, int id)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt != null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt != null);
 
                 if (itemResponse == null)
                 {
