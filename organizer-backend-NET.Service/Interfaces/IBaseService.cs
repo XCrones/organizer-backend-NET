@@ -4,18 +4,18 @@ namespace organizer_backend_NET.Implements.Interfaces
 {
     public interface IBaseService<TD, VM>
     {
-        Task<IBaseResponse<IEnumerable<TD>>> GetAll();
+        Task<IBaseResponse<IEnumerable<TD>>> GetAll(int UId);
 
-        Task<IBaseResponse<TD>> GetItemById(int id);
+        Task<IBaseResponse<TD>> GetItemById(int UId, int id);
 
-        Task<IBaseResponse<TD>> GetItemByName(string name);
+        Task<IBaseResponse<TD>> GetItemByName(int UId, string name);
 
-        Task<IBaseResponse<bool>> RemoveItem(int id);
+        Task<IBaseResponse<bool>> RemoveItem(int UId, int id);
 
-        Task<IBaseResponse<bool>> CreateItem(VM viewModel);
+        Task<IBaseResponse<bool>> CreateItem(int UId, VM model);
 
-        Task<IBaseResponse<TD>> EditItem(int id, VM viewModel);
+        Task<IBaseResponse<TD>> EditItem(int UId, int id, VM model);
 
-        Task<IBaseResponse<TD>> RestoreItem(int id);
+        Task<IBaseResponse<TD>> RestoreItem(int UId, int id);
     }
 }
