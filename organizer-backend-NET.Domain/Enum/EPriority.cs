@@ -3,15 +3,15 @@ using System.ComponentModel;
 
 namespace organizer_backend_NET.Domain.Enum
 {
-    public enum EPriority : byte
+    public enum EPriority
     {
         [Description("Hight")]
-        HIGHT = 0,
+        HIGHT,
 
         [Description("Medium")]
-        MEDIUM = 1,
+        MEDIUM,
 
         [Description("Low")]
-        LOW = 2,
+        LOW,
     }
 }
