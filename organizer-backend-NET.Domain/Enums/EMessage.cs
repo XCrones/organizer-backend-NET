@@ -21,5 +21,8 @@ namespace organizer_backend_NET.Domain.Enums
 
         [EnumMember(Value = "email is busy")]
         email_busy,
+
+        [EnumMember(Value = "user not found")]
+        user_not_found,
     }
 }
