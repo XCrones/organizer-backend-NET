@@ -19,15 +19,20 @@ namespace organizer_backend_NET.Implements.Services
             _repository = userRepository;
         }
 
+        private async Task<User?> SearchUniqEmail(string Email)
+        {
+            return await _repository.Read().FirstOrDefaultAsync(item => item.Email == Email);
+        }
+
         public async Task<IBaseResponse<User>> SignUp(SignupViewModel model)
         {
             try
             {
                 DateTime timeStamp = DateTime.UtcNow;
 
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Email == model.Email && item.DeleteAt == null);
+                var uniqEmail = await SearchUniqEmail(model.Email);
 
-                if (itemResponse != null)
+                if (uniqEmail != null)
                 {
                     return new BaseResponse<User>()
                     {
@@ -128,14 +133,130 @@ namespace organizer_backend_NET.Implements.Services
             }
         }
 
-        public Task<IBaseResponse<bool>> RemoveItem(int UId)
+        public async Task<IBaseResponse<bool>> RemoveItem(int UId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.DeleteAt == null);
+
+                if (itemResponse == null)
+                {
+                    return new BaseResponse<bool>()
+                    {
+                        Description = nameof(EMessage.not_found),
+                        StatusCode = EStatusCode.NotFound,
+                    };
+                }
+
+                itemResponse.DeleteAt = DateTime.UtcNow;
+                await _repository.Update(itemResponse);
+
+                return new BaseResponse<bool>()
+                {
+                    Description = nameof(EMessage.delete_succes),
+                    StatusCode = EStatusCode.OK,
+                    Data = true,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<bool>()
+                {
+                    Description = $"[RemoveItem] : {ex.Message}",
+                    StatusCode = EStatusCode.InternalServerError,
+                };
+            }
         }
 
-        public Task<IBaseResponse<User>> RestoreItem(int UId)
+        public async Task<IBaseResponse<User>> RestoreItem(int UId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.DeleteAt != null);
+
+                if (itemResponse == null)
+                {
+                    return new BaseResponse<User>()
+                    {
+                        Description = nameof(EMessage.not_found),
+                        StatusCode = EStatusCode.NotFound,
+                    };
+                }
+
+                itemResponse.DeleteAt = null;
+                await _repository.Update(itemResponse);
+
+
+                return new BaseResponse<User>()
+                {
+                    Description = nameof(EMessage.restore_succes),
+                    StatusCode = EStatusCode.OK,
+                    Data = itemResponse,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<User>()
+                {
+                    Description = $"[RestoreItem] : {ex.Message}",
+                    StatusCode = EStatusCode.InternalServerError,
+                };
+            }
+        }
+
+        public async Task<IBaseResponse<User>> EditItem(int UId, SignupViewModel model)
+        {
+            try
+            {
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.DeleteAt == null);
+
+                if (itemResponse == null)
+                {
+                    return new BaseResponse<User>()
+                    {
+                        Description = nameof(EMessage.not_found),
+                        StatusCode = EStatusCode.NotFound,
+                    };
+                }
+
+                if (itemResponse.Email != model.Email)
+                {
+                    var uniqEmail = await SearchUniqEmail(model.Email);
+
+                    if (uniqEmail != null)
+                    {
+                        return new BaseResponse<User>()
+                        {
+                            Description = nameof(EMessage.email_busy),
+                            StatusCode = EStatusCode.BadRequest,
+                        };
+                    } else
+                    {
+                        itemResponse.Email = model.Email;
+                    }
+                }
+
+                itemResponse.Name = model.Name;
+                itemResponse.UrlAvatar = $"{model.UrlAvatar}";
+                itemResponse.UpdatedAt = DateTime.UtcNow;
+                //! itemResponse.Password = 
+
+                var response = await _repository.Update(itemResponse);
+                return new BaseResponse<User>()
+                {
+                    Description = nameof(EMessage.update_succes),
+                    StatusCode = EStatusCode.Edited,
+                    Data = response,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<User>()
+                {
+                    Description = $"[RestoreItem] : {ex.Message}",
+                    StatusCode = EStatusCode.InternalServerError,
+                };
+            }
         }
     }
 }
