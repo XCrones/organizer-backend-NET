@@ -8,13 +8,16 @@ namespace organizer_backend_NET.Domain.Entity
     [Table("Calendars")]
     public class Calendar : IBaseEntity, IUId
     {
-        [Column("Id"), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("Id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Column("UId"), ForeignKey("User")]
+        [Column("UId")]
+        [ForeignKey("User")]
         public int UId { get; set; }
 
-        [Column("Name"), MaxLength(50)]
+        [Column("Name")]
+        [MaxLength(50)]
         public string Name { get; set; }
 
         [Column("EventStart")]
@@ -23,10 +26,12 @@ namespace organizer_backend_NET.Domain.Entity
         [Column("EventEnd")]
         public DateTime EventEnd { get; set; }
 
-        [Column("Description"), MaxLength(100)]
+        [Column("Description")]
+        [MaxLength(100)]
         public string Description { get; set; }
 
-        [Column("Background"), MaxLength(20)]
+        [Column("Background")]
+        [MaxLength(20)]
         public string Background { get; set; }
 
         [Column("CreatedAt")]

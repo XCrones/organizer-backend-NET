@@ -7,7 +7,8 @@ namespace organizer_backend_NET.Domain.Entity
     [Table("Users")]
     public class User : ITiming
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UId { get; set; }
 
         [Column("Name")]

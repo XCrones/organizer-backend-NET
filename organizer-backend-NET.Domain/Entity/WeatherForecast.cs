@@ -6,7 +6,8 @@ namespace organizer_backend_NET.Domain.Entity
     [Table("WeatherForecasts")]
     public class WeatherForecast : IBaseEntity
     {
-        [Column("Id"), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("Id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Column("cod")]

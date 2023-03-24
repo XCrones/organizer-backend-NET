@@ -6,10 +6,12 @@ namespace organizer_backend_NET.Domain.Entity
     [Table("UserWeathers")]
     public class UserWeather : IBaseEntity, IUId
     {
-        [Column("Id"), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("Id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Column("UId"), ForeignKey("User")]
+        [Column("UId")]
+        [ForeignKey("User")]
         public int UId { get; set; }
 
         [Column("Cities", TypeName = "jsonb")]
