@@ -42,7 +42,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Descritption = nameof(EMessage.create_succes),
+                    Description = nameof(EMessage.create_succes),
                     StatusCode = EStatusCode.OK,
                 };
             }
@@ -50,7 +50,7 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<bool>()
                 {
-                    Descritption = $"[CreateItem] : {ex.Message}",
+                    Description = $"[CreateItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
@@ -66,7 +66,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<bool>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -76,7 +76,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Descritption = nameof(EMessage.delete_succes),
+                    Description = nameof(EMessage.delete_succes),
                     StatusCode = EStatusCode.OK,
                     Data = true,
                 };
@@ -86,7 +86,7 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<bool>()
                 {
-                    Descritption = $"[DeleteItem] : {ex.Message}",
+                    Description = $"[DeleteItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
@@ -102,7 +102,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Todo>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -118,7 +118,7 @@ namespace organizer_backend_NET.Implements.Services
                 var response = await _repository.Update(itemResponse);
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = nameof(EMessage.update_succes),
+                    Description = nameof(EMessage.update_succes),
                     StatusCode = EStatusCode.Edited,
                     Data = response,
                 };
@@ -127,7 +127,7 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = $"[EditItem] : {ex.Message}",
+                    Description = $"[EditItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
@@ -143,7 +143,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<IEnumerable<Todo>>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -158,7 +158,7 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<IEnumerable<Todo>>()
                 {
-                    Descritption = $"[GetAll] : {ex.Message}",
+                    Description = $"[GetAll] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
@@ -174,7 +174,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Todo>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -190,7 +190,7 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = $"[GetItemById] : {ex.Message}",
+                    Description = $"[GetItemById] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
@@ -206,7 +206,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Todo>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -221,7 +221,7 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = $"[GetItemByName] : {ex.Message}",
+                    Description = $"[GetItemByName] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
@@ -237,7 +237,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Todo>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -247,7 +247,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = nameof(EMessage.restore_succes),
+                    Description = nameof(EMessage.restore_succes),
                     StatusCode = EStatusCode.OK,
                     Data = itemResponse,
                 };
@@ -257,7 +257,7 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = $"[RestoreItem] : {ex.Message}",
+                    Description = $"[RestoreItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }

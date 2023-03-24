@@ -31,7 +31,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<User>()
                     {
-                        Descritption = nameof(EMessage.email_busy),
+                        Description = nameof(EMessage.email_busy),
                         StatusCode = EStatusCode.BadRequest,
                     };
                 }
@@ -40,7 +40,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     Email = model.Email,
                     Name = model.Name,
-                    UrlAvatar = model.UrlAvatar,
+                    UrlAvatar = $"{model.UrlAvatar}",
                     CreatedAt = timeStamp,
                     UpdatedAt = timeStamp,
                     Password = HashPasswordHelper.HashPassword(model.Password),
@@ -51,7 +51,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<User>()
                 {
-                    Descritption = nameof(EMessage.create_succes),
+                    Description = nameof(EMessage.create_succes),
                     StatusCode = EStatusCode.OK,
                     Data = newItem,
                 };
@@ -59,7 +59,7 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<User>()
                 {
-                    Descritption = $"[Get] : {ex.Message}",
+                    Description = $"[Get] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
@@ -67,7 +67,34 @@ namespace organizer_backend_NET.Implements.Services
 
         public async Task<IBaseResponse<User>> SignIn(SigninViewModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Email == model.Email && item.DeleteAt == null);
+
+                //! check password
+
+                if (itemResponse != null)
+                {
+                    return new BaseResponse<User>()
+                    {
+                        StatusCode = EStatusCode.OK,
+                        Data = itemResponse,
+                    };
+                }
+
+                return new BaseResponse<User>()
+                {
+                    Description = nameof(EMessage.user_not_found),
+                    StatusCode = EStatusCode.BadRequest,
+                };
+            } catch (Exception ex)
+            {
+                return new BaseResponse<User>()
+                {
+                    Description = $"[SignIn] : {ex.Message}",
+                    StatusCode = EStatusCode.InternalServerError,
+                };
+            }
         }
 
         public async Task<IBaseResponse<User>> GetItem(int UId)
@@ -80,7 +107,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<User>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -95,7 +122,7 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<User>()
                 {
-                    Descritption = $"[GetItem] : {ex.Message}",
+                    Description = $"[GetItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
