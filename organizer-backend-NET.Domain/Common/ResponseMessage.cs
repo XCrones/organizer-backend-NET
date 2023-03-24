@@ -11,5 +11,7 @@
         public static string DELETE_SUCCES = "Delete succes";
 
         public static string UPDATE_SUCCES = "Update succes";
+
+        public static string EMAIL_IS_BUSY = "Email is busy";
     }
 }
