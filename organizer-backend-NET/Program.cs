@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 Services.InitDataBase(builder);
 Services.InitRepositories(builder);
 Services.InitServices(builder);
+Services.InitJWTAuth(builder);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,6 +24,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
