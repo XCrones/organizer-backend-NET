@@ -1,4 +1,4 @@
-﻿using organizer_backend_NET.Domain.Enum;
+﻿using organizer_backend_NET.Domain.Enums;
 using organizer_backend_NET.Domain.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using organizer_backend_NET.DAL.Interfaces;
-using organizer_backend_NET.Domain.Common;
+using organizer_backend_NET.Domain.Helpers;
 using organizer_backend_NET.Domain.Entity;
-using organizer_backend_NET.Domain.Enum;
+using organizer_backend_NET.Domain.Enums;
 using organizer_backend_NET.Domain.Interfaces;
 using organizer_backend_NET.Domain.Response;
 using organizer_backend_NET.Domain.ViewModel;
@@ -31,7 +31,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<User>()
                     {
-                        Descritption = ResponseMessage.EMAIL_IS_BUSY,
+                        Descritption = nameof(EMessage.email_busy),
                         StatusCode = EStatusCode.BadRequest,
                     };
                 }
@@ -43,7 +43,7 @@ namespace organizer_backend_NET.Implements.Services
                     UrlAvatar = model.UrlAvatar,
                     CreatedAt = timeStamp,
                     UpdatedAt = timeStamp,
-                    Password = HashPasswordCommon.HashPassword(model.Password),
+                    Password = HashPasswordHelper.HashPassword(model.Password),
                 };
 
                 await _repository.Create(newItem);
@@ -51,7 +51,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<User>()
                 {
-                    Descritption = ResponseMessage.CREATE_SUCCES,
+                    Descritption = nameof(EMessage.create_succes),
                     StatusCode = EStatusCode.OK,
                     Data = newItem,
                 };
@@ -80,7 +80,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<User>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }

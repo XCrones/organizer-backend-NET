@@ -1,4 +1,4 @@
-﻿namespace organizer_backend_NET.Domain.Enum
+﻿namespace organizer_backend_NET.Domain.Enums
 {
     public enum EStatusCode
     {

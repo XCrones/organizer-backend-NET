@@ -1,9 +1,8 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using organizer_backend_NET.DAL.Interfaces;
-using organizer_backend_NET.Domain.Common;
 using organizer_backend_NET.Domain.Entity;
-using organizer_backend_NET.Domain.Enum;
+using organizer_backend_NET.Domain.Enums;
 using organizer_backend_NET.Domain.Interfaces;
 using organizer_backend_NET.Domain.Response;
 using organizer_backend_NET.Domain.ViewModel;
@@ -42,7 +41,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Descritption = ResponseMessage.CREATE_SUCCES,
+                    Descritption = nameof(EMessage.create_succes),
                     StatusCode = EStatusCode.OK,
                 };
 
@@ -68,7 +67,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<bool>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -78,7 +77,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Descritption = ResponseMessage.DELETE_SUCCES,
+                    Descritption = nameof(EMessage.delete_succes),
                     StatusCode = EStatusCode.OK,
                     Data = true,
                 };
@@ -104,7 +103,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -120,7 +119,7 @@ namespace organizer_backend_NET.Implements.Services
                 var response = await _repository.Update(itemResponse);
                 return new BaseResponse<Calendar>()
                 {
-                    Descritption = ResponseMessage.UPDATE_SUCCES,
+                    Descritption =  nameof(EMessage.update_succes),
                     StatusCode = EStatusCode.Edited,
                     Data = response,
                 };
@@ -146,7 +145,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<IEnumerable<Calendar>>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -177,7 +176,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -209,7 +208,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -240,7 +239,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -250,7 +249,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<Calendar>()
                 {
-                    Descritption = ResponseMessage.RESTORE_SUCCES,
+                    Descritption = nameof(EMessage.restore_succes),
                     StatusCode = EStatusCode.OK,
                     Data = itemResponse,
                 };

@@ -2,8 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace organizer_backend_NET.Domain.Enum
+namespace organizer_backend_NET.Domain.Enums
 {
+    [Flags]
     public enum EPriority
     {
         [EnumMember(Value = "hight")]

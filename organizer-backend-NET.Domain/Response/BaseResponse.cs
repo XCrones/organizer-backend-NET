@@ -1,4 +1,4 @@
-﻿using organizer_backend_NET.Domain.Enum;
+﻿using organizer_backend_NET.Domain.Enums;
 using organizer_backend_NET.Domain.Interfaces;
 
 namespace organizer_backend_NET.Domain.Response

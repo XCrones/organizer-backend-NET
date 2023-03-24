@@ -1,7 +1,7 @@
-﻿using organizer_backend_NET.Domain.Enum;
+﻿using organizer_backend_NET.Domain.Enums;
 using organizer_backend_NET.Domain.Response;
 using Microsoft.EntityFrameworkCore;
-using organizer_backend_NET.Domain.Common;
+using organizer_backend_NET.Domain.Helpers;
 using organizer_backend_NET.Domain.Entity;
 using organizer_backend_NET.Implements.Interfaces;
 using organizer_backend_NET.Domain.ViewModel;
@@ -33,7 +33,7 @@ namespace organizer_backend_NET.Implements.Services
                     Category = viewModel.Category,
                     Status = false,
                     DeadLine = viewModel.DeadLine,
-                    Priority = (EPriority)Convert.ToInt32(viewModel.Priority), //!
+                    Priority = ConvertEnum.PriorityIntToEnum(viewModel.Priority),
                     UpdatedAt = timeStamp,
                     CreatedAt = timeStamp,
                 };
@@ -42,7 +42,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Descritption = ResponseMessage.CREATE_SUCCES,
+                    Descritption = nameof(EMessage.create_succes),
                     StatusCode = EStatusCode.OK,
                 };
             }
@@ -66,7 +66,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<bool>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -76,7 +76,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Descritption = ResponseMessage.DELETE_SUCCES,
+                    Descritption = nameof(EMessage.delete_succes),
                     StatusCode = EStatusCode.OK,
                     Data = true,
                 };
@@ -102,14 +102,14 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Todo>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
 
                 itemResponse.Status = viewModel.Status;
                 itemResponse.Name = viewModel.Name;
-                //todo.Priority = viewModel.Priority; //!
+                itemResponse.Priority =  ConvertEnum.PriorityIntToEnum(viewModel.Priority);
                 itemResponse.Background = viewModel.Background;
                 itemResponse.DeadLine = viewModel.DeadLine;
                 itemResponse.Category = viewModel.Category;
@@ -118,7 +118,7 @@ namespace organizer_backend_NET.Implements.Services
                 var response = await _repository.Update(itemResponse);
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = ResponseMessage.UPDATE_SUCCES,
+                    Descritption = nameof(EMessage.update_succes),
                     StatusCode = EStatusCode.Edited,
                     Data = response,
                 };
@@ -143,7 +143,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<IEnumerable<Todo>>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -174,7 +174,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Todo>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -206,7 +206,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Todo>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -237,7 +237,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Todo>()
                     {
-                        Descritption = ResponseMessage.NOT_FOUND,
+                        Descritption = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -247,7 +247,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = ResponseMessage.RESTORE_SUCCES,
+                    Descritption = nameof(EMessage.restore_succes),
                     StatusCode = EStatusCode.OK,
                     Data = itemResponse,
                 };
