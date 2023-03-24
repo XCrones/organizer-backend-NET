@@ -8,6 +8,6 @@
 
         Task<T> Update(T entity);
 
-        Task<bool> Delete(T entity);
+        Task<bool> Remove(T entity);
     }
 }

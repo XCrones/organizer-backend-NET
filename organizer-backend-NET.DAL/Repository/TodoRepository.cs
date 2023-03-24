@@ -18,6 +18,13 @@ namespace organizer_backend_NET.DAL.Repository
             return true;
         }
 
+        public async Task<bool> Remove(Domain.Entity.Todo entity)
+        {
+            _db.TodoDB.Remove(entity);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
         public IQueryable<Domain.Entity.Todo> Read() => _db.TodoDB;
 
         public async Task<Domain.Entity.Todo> Update(Domain.Entity.Todo entity)
@@ -25,13 +32,6 @@ namespace organizer_backend_NET.DAL.Repository
             _db.TodoDB.Update(entity);
             await _db.SaveChangesAsync();
             return entity;
-        }
-
-        public async Task<bool> Delete(Domain.Entity.Todo entity)
-        {
-            _db.TodoDB.Remove(entity);
-            await _db.SaveChangesAsync();
-            return true;
         }
     }
 }
