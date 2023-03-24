@@ -7,6 +7,7 @@ using organizer_backend_NET.Domain.Interfaces;
 using organizer_backend_NET.Domain.Response;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Implements.Interfaces;
+using organizer_backend_NET.Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -48,7 +49,6 @@ namespace organizer_backend_NET.Controllers
         public async Task<ISignResponse<User>> SignUp(SignupViewModel model)
         {
             var key = _options.SecretKey;
-            Console.WriteLine(key);
 
             var response = await _userService.SignUp(model);
 
@@ -73,7 +73,6 @@ namespace organizer_backend_NET.Controllers
         public async Task<ISignResponse<User>> SignIn(SigninViewModel model) {
 
             var key = _options.SecretKey;
-            Console.WriteLine(key);
 
             var response = await _userService.SignIn(model);
 
