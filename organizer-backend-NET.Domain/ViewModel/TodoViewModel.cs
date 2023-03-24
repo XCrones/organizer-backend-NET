@@ -13,7 +13,7 @@ namespace organizer_backend_NET.Domain.ViewModel
         public string Category { get; set; }
 
         [Required, StringLength(1, MinimumLength = 1)]
-        public int Priority { get; set; } //!
+        public string Priority { get; set; } //!
 
         [Required, DataType(DataType.DateTime)]
         public DateTime DeadLine { get; set; }
