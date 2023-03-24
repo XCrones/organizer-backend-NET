@@ -5,6 +5,7 @@
         OK = 200,
         Edited = 201,
         InternalServerError = 500,
-        NotFound = 404
+        NotFound = 404,
+        BadRequest = 400
     }
 }
