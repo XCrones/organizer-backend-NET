@@ -1,52 +1,50 @@
-﻿
+﻿using organizer_backend_NET.Domain.Enum;
+using organizer_backend_NET.Domain.Response;
 using Microsoft.EntityFrameworkCore;
-using organizer_backend_NET.DAL.Interfaces;
 using organizer_backend_NET.Domain.Common;
 using organizer_backend_NET.Domain.Entity;
-using organizer_backend_NET.Domain.Enum;
-using organizer_backend_NET.Domain.Interfaces;
-using organizer_backend_NET.Domain.Response;
+using organizer_backend_NET.Implements.Interfaces;
 using organizer_backend_NET.Domain.ViewModel;
-using organizer_backend_NET.Service.Interfaces;
+using organizer_backend_NET.Domain.Interfaces;
+using organizer_backend_NET.DAL.Interfaces;
 
-namespace organizer_backend_NET.Service.Services
+namespace organizer_backend_NET.Implements.Services
 {
-    public class CalendarService : ICalendarService
+    public class TodoService : ITodoService
     {
-        private readonly ICalendarRepository _repository;
+        private readonly ITodoRespository _repository;
 
-        public CalendarService(ICalendarRepository calendarRepository)
+        public TodoService(ITodoRespository todoRespository)
         {
-            _repository = calendarRepository;
+            _repository = todoRespository;
         }
 
-        public async Task<IBaseResponse<bool>> CreateItem(CalendarViewModel viewModel)
+        public async Task<IBaseResponse<bool>> CreateItem(TodoViewModel viewModel)
         {
             try
             {
                 DateTime timeStamp = DateTime.UtcNow;
 
-                var newEvent = new Calendar()
+                var newItem = new Todo()
                 {
-                    Background = viewModel.Background,
-                    Name = viewModel.Name,
-                    EventStart = viewModel.EventStart,
-                    EventEnd = viewModel.EventEnd,
-                    Description = viewModel.Description,
                     UId = 1, //!
-                    CreatedAt = timeStamp,
+                    Name = viewModel.Name,
+                    Background = viewModel.Background,
+                    Category = viewModel.Category,
+                    Status = false,
+                    DeadLine = viewModel.DeadLine,
+                    Priority = (EPriority)Convert.ToInt32(viewModel.Priority), //!
                     UpdatedAt = timeStamp,
+                    CreatedAt = timeStamp,
                 };
 
-                await _repository.Create(newEvent);
+                await _repository.Create(newItem);
 
                 return new BaseResponse<bool>()
                 {
                     Descritption = ResponseMessage.CREATE_SUCCES,
                     StatusCode = EStatusCode.OK,
                 };
-
-
             }
             catch (Exception ex)
             {
@@ -82,6 +80,7 @@ namespace organizer_backend_NET.Service.Services
                     StatusCode = EStatusCode.OK,
                     Data = true,
                 };
+
             }
             catch (Exception ex)
             {
@@ -93,50 +92,48 @@ namespace organizer_backend_NET.Service.Services
             }
         }
 
-        public async Task<IBaseResponse<Calendar>> EditItem(int id, CalendarViewModel viewModel)
+        public async Task<IBaseResponse<Todo>> EditItem(int id, TodoViewModel viewModel)
         {
             try
             {
-
                 var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
-                    return new BaseResponse<Calendar>()
+                    return new BaseResponse<Todo>()
                     {
                         Descritption = ResponseMessage.NOT_FOUND,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
 
-
+                itemResponse.Status = viewModel.Status;
                 itemResponse.Name = viewModel.Name;
-                itemResponse.Description = viewModel.Description;
+                //todo.Priority = viewModel.Priority; //!
                 itemResponse.Background = viewModel.Background;
+                itemResponse.DeadLine = viewModel.DeadLine;
+                itemResponse.Category = viewModel.Category;
                 itemResponse.UpdatedAt = DateTime.UtcNow;
-                itemResponse.EventEnd = viewModel.EventEnd;
-                itemResponse.EventStart = viewModel.EventStart;
 
                 var response = await _repository.Update(itemResponse);
-                return new BaseResponse<Calendar>()
+                return new BaseResponse<Todo>()
                 {
                     Descritption = ResponseMessage.UPDATE_SUCCES,
                     StatusCode = EStatusCode.Edited,
                     Data = response,
                 };
-
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Calendar>()
+                return new BaseResponse<Todo>()
                 {
-                    Descritption = $"[DeleteItem] : {ex.Message}",
+                    Descritption = $"[EditItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<Calendar>>> GetAll()
+        public async Task<IBaseResponse<IEnumerable<Todo>>> GetAll()
         {
             try
             {
@@ -144,14 +141,14 @@ namespace organizer_backend_NET.Service.Services
 
                 if (itemsResponse == null)
                 {
-                    return new BaseResponse<IEnumerable<Calendar>>()
+                    return new BaseResponse<IEnumerable<Todo>>()
                     {
                         Descritption = ResponseMessage.NOT_FOUND,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
 
-                return new BaseResponse<IEnumerable<Calendar>>()
+                return new BaseResponse<IEnumerable<Todo>>()
                 {
                     StatusCode = EStatusCode.OK,
                     Data = itemsResponse,
@@ -159,7 +156,7 @@ namespace organizer_backend_NET.Service.Services
             }
             catch (Exception ex)
             {
-                return new BaseResponse<IEnumerable<Calendar>>()
+                return new BaseResponse<IEnumerable<Todo>>()
                 {
                     Descritption = $"[GetAll] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
@@ -167,7 +164,7 @@ namespace organizer_backend_NET.Service.Services
             }
         }
 
-        public async Task<IBaseResponse<Calendar>> GetItemById(int id)
+        public async Task<IBaseResponse<Todo>> GetItemById(int id)
         {
             try
             {
@@ -175,14 +172,14 @@ namespace organizer_backend_NET.Service.Services
 
                 if (itemResponse == null)
                 {
-                    return new BaseResponse<Calendar>()
+                    return new BaseResponse<Todo>()
                     {
                         Descritption = ResponseMessage.NOT_FOUND,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
 
-                return new BaseResponse<Calendar>()
+                return new BaseResponse<Todo>()
                 {
                     StatusCode = EStatusCode.OK,
                     Data = itemResponse,
@@ -191,7 +188,7 @@ namespace organizer_backend_NET.Service.Services
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Calendar>()
+                return new BaseResponse<Todo>()
                 {
                     Descritption = $"[GetItemById] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
@@ -199,7 +196,7 @@ namespace organizer_backend_NET.Service.Services
             }
         }
 
-        public async Task<IBaseResponse<Calendar>> GetItemByName(string name)
+        public async Task<IBaseResponse<Todo>> GetItemByName(string name)
         {
             try
             {
@@ -207,14 +204,14 @@ namespace organizer_backend_NET.Service.Services
 
                 if (itemResponse == null)
                 {
-                    return new BaseResponse<Calendar>()
+                    return new BaseResponse<Todo>()
                     {
                         Descritption = ResponseMessage.NOT_FOUND,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
 
-                return new BaseResponse<Calendar>()
+                return new BaseResponse<Todo>()
                 {
                     StatusCode = EStatusCode.OK,
                     Data = itemResponse,
@@ -222,7 +219,7 @@ namespace organizer_backend_NET.Service.Services
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Calendar>()
+                return new BaseResponse<Todo>()
                 {
                     Descritption = $"[GetItemByName] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
@@ -230,7 +227,7 @@ namespace organizer_backend_NET.Service.Services
             }
         }
 
-        public async Task<IBaseResponse<Calendar>> RestoreItem(int id)
+        public async Task<IBaseResponse<Todo>> RestoreItem(int id)
         {
             try
             {
@@ -238,7 +235,7 @@ namespace organizer_backend_NET.Service.Services
 
                 if (itemResponse == null)
                 {
-                    return new BaseResponse<Calendar>()
+                    return new BaseResponse<Todo>()
                     {
                         Descritption = ResponseMessage.NOT_FOUND,
                         StatusCode = EStatusCode.NotFound,
@@ -248,7 +245,7 @@ namespace organizer_backend_NET.Service.Services
                 itemResponse.DeleteAt = null;
                 await _repository.Update(itemResponse);
 
-                return new BaseResponse<Calendar>()
+                return new BaseResponse<Todo>()
                 {
                     Descritption = ResponseMessage.RESTORE_SUCCES,
                     StatusCode = EStatusCode.OK,
@@ -258,7 +255,7 @@ namespace organizer_backend_NET.Service.Services
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Calendar>()
+                return new BaseResponse<Todo>()
                 {
                     Descritption = $"[RestoreItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,

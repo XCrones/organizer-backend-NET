@@ -1,6 +1,6 @@
 ﻿using organizer_backend_NET.Domain.Interfaces;
 
-namespace organizer_backend_NET.Service.Interfaces
+namespace organizer_backend_NET.Implements.Interfaces
 {
     public interface IBaseService<TD, VM>
     {
