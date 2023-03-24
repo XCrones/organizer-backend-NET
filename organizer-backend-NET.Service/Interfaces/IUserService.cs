@@ -15,5 +15,7 @@ namespace organizer_backend_NET.Implements.Interfaces
         Task<IBaseResponse<User>> RestoreItem(int UId);
 
         Task<IBaseResponse<bool>> RemoveItem(int UId);
+
+        Task<IBaseResponse<User>> EditItem(int UId, SignupViewModel model);
     }
 }
