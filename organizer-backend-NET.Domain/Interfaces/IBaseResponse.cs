@@ -4,7 +4,7 @@ namespace organizer_backend_NET.Domain.Interfaces
 {
     public interface IBaseResponse<T>
     {
-        public string? Descritption { get; set; }
+        public string? Description { get; set; }
 
         public EStatusCode StatusCode { get; set; }
 

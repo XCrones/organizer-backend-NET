@@ -19,19 +19,24 @@ namespace organizer_backend_NET.Implements.Services
             _repository = userRepository;
         }
 
+        private async Task<User?> SearchUniqEmail(string Email)
+        {
+            return await _repository.Read().FirstOrDefaultAsync(item => item.Email == Email);
+        }
+
         public async Task<IBaseResponse<User>> SignUp(SignupViewModel model)
         {
             try
             {
                 DateTime timeStamp = DateTime.UtcNow;
 
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Email == model.Email && item.DeleteAt == null);
+                var uniqEmail = await SearchUniqEmail(model.Email);
 
-                if (itemResponse != null)
+                if (uniqEmail != null)
                 {
                     return new BaseResponse<User>()
                     {
-                        Descritption = nameof(EMessage.email_busy),
+                        Description = nameof(EMessage.email_busy),
                         StatusCode = EStatusCode.BadRequest,
                     };
                 }
@@ -40,7 +45,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     Email = model.Email,
                     Name = model.Name,
-                    UrlAvatar = model.UrlAvatar,
+                    UrlAvatar = $"{model.UrlAvatar}",
                     CreatedAt = timeStamp,
                     UpdatedAt = timeStamp,
                     Password = HashPasswordHelper.HashPassword(model.Password),
@@ -51,7 +56,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<User>()
                 {
-                    Descritption = nameof(EMessage.create_succes),
+                    Description = nameof(EMessage.create_succes),
                     StatusCode = EStatusCode.OK,
                     Data = newItem,
                 };
@@ -59,7 +64,7 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<User>()
                 {
-                    Descritption = $"[Get] : {ex.Message}",
+                    Description = $"[Get] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
@@ -67,7 +72,34 @@ namespace organizer_backend_NET.Implements.Services
 
         public async Task<IBaseResponse<User>> SignIn(SigninViewModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Email == model.Email && item.DeleteAt == null);
+
+                //! check password
+
+                if (itemResponse != null)
+                {
+                    return new BaseResponse<User>()
+                    {
+                        StatusCode = EStatusCode.OK,
+                        Data = itemResponse,
+                    };
+                }
+
+                return new BaseResponse<User>()
+                {
+                    Description = nameof(EMessage.user_not_found),
+                    StatusCode = EStatusCode.BadRequest,
+                };
+            } catch (Exception ex)
+            {
+                return new BaseResponse<User>()
+                {
+                    Description = $"[SignIn] : {ex.Message}",
+                    StatusCode = EStatusCode.InternalServerError,
+                };
+            }
         }
 
         public async Task<IBaseResponse<User>> GetItem(int UId)
@@ -80,7 +112,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<User>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -95,20 +127,136 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<User>()
                 {
-                    Descritption = $"[GetItem] : {ex.Message}",
+                    Description = $"[GetItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public Task<IBaseResponse<bool>> RemoveItem(int UId)
+        public async Task<IBaseResponse<bool>> RemoveItem(int UId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.DeleteAt == null);
+
+                if (itemResponse == null)
+                {
+                    return new BaseResponse<bool>()
+                    {
+                        Description = nameof(EMessage.not_found),
+                        StatusCode = EStatusCode.NotFound,
+                    };
+                }
+
+                itemResponse.DeleteAt = DateTime.UtcNow;
+                await _repository.Update(itemResponse);
+
+                return new BaseResponse<bool>()
+                {
+                    Description = nameof(EMessage.delete_succes),
+                    StatusCode = EStatusCode.OK,
+                    Data = true,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<bool>()
+                {
+                    Description = $"[RemoveItem] : {ex.Message}",
+                    StatusCode = EStatusCode.InternalServerError,
+                };
+            }
         }
 
-        public Task<IBaseResponse<User>> RestoreItem(int UId)
+        public async Task<IBaseResponse<User>> RestoreItem(int UId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.DeleteAt != null);
+
+                if (itemResponse == null)
+                {
+                    return new BaseResponse<User>()
+                    {
+                        Description = nameof(EMessage.not_found),
+                        StatusCode = EStatusCode.NotFound,
+                    };
+                }
+
+                itemResponse.DeleteAt = null;
+                await _repository.Update(itemResponse);
+
+
+                return new BaseResponse<User>()
+                {
+                    Description = nameof(EMessage.restore_succes),
+                    StatusCode = EStatusCode.OK,
+                    Data = itemResponse,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<User>()
+                {
+                    Description = $"[RestoreItem] : {ex.Message}",
+                    StatusCode = EStatusCode.InternalServerError,
+                };
+            }
+        }
+
+        public async Task<IBaseResponse<User>> EditItem(int UId, SignupViewModel model)
+        {
+            try
+            {
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.DeleteAt == null);
+
+                if (itemResponse == null)
+                {
+                    return new BaseResponse<User>()
+                    {
+                        Description = nameof(EMessage.not_found),
+                        StatusCode = EStatusCode.NotFound,
+                    };
+                }
+
+                if (itemResponse.Email != model.Email)
+                {
+                    var uniqEmail = await SearchUniqEmail(model.Email);
+
+                    if (uniqEmail != null)
+                    {
+                        return new BaseResponse<User>()
+                        {
+                            Description = nameof(EMessage.email_busy),
+                            StatusCode = EStatusCode.BadRequest,
+                        };
+                    } else
+                    {
+                        itemResponse.Email = model.Email;
+                    }
+                }
+
+                itemResponse.Name = model.Name;
+                itemResponse.UrlAvatar = $"{model.UrlAvatar}";
+                itemResponse.UpdatedAt = DateTime.UtcNow;
+                //! itemResponse.Password = 
+
+                var response = await _repository.Update(itemResponse);
+                return new BaseResponse<User>()
+                {
+                    Description = nameof(EMessage.update_succes),
+                    StatusCode = EStatusCode.Edited,
+                    Data = response,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<User>()
+                {
+                    Description = $"[RestoreItem] : {ex.Message}",
+                    StatusCode = EStatusCode.InternalServerError,
+                };
+            }
         }
     }
 }

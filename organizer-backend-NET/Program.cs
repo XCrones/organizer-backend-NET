@@ -1,11 +1,13 @@
-using organizer_backend_NET;
+using organizer_backend_NET.Inits;
+using organizer_backend_NET.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-Services.InitDataBase(builder);
-Services.InitRepositories(builder);
-Services.InitServices(builder);
+DatabasesInit.Init(builder);
+RepositoriesInit.Init(builder);
+ServicesInit.Init(builder);
+AuthInit.Init(builder);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,6 +25,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -19,7 +19,7 @@ namespace organizer_backend_NET.Implements.Services
             _repository = calendarRepository;
         }
 
-        public async Task<IBaseResponse<bool>> CreateItem(CalendarViewModel viewModel)
+        public async Task<IBaseResponse<bool>> CreateItem(int UId, CalendarViewModel viewModel)
         {
             try
             {
@@ -27,12 +27,12 @@ namespace organizer_backend_NET.Implements.Services
 
                 var newEvent = new Calendar()
                 {
-                    Background = viewModel.Background,
+                    UId = UId,
                     Name = viewModel.Name,
                     EventStart = viewModel.EventStart,
                     EventEnd = viewModel.EventEnd,
                     Description = viewModel.Description,
-                    UId = 1, //!
+                    Background = viewModel.Background,
                     CreatedAt = timeStamp,
                     UpdatedAt = timeStamp,
                 };
@@ -41,7 +41,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Descritption = nameof(EMessage.create_succes),
+                    Description = nameof(EMessage.create_succes),
                     StatusCode = EStatusCode.OK,
                 };
 
@@ -51,23 +51,23 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<bool>()
                 {
-                    Descritption = $"[CreateItem] : {ex.Message}",
+                    Description = $"[CreateItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<bool>> RemoveItem(int id)
+        public async Task<IBaseResponse<bool>> RemoveItem(int UId, int id)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
                     return new BaseResponse<bool>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -77,7 +77,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Descritption = nameof(EMessage.delete_succes),
+                    Description = nameof(EMessage.delete_succes),
                     StatusCode = EStatusCode.OK,
                     Data = true,
                 };
@@ -86,24 +86,24 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<bool>()
                 {
-                    Descritption = $"[DeleteItem] : {ex.Message}",
+                    Description = $"[DeleteItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<Calendar>> EditItem(int id, CalendarViewModel viewModel)
+        public async Task<IBaseResponse<Calendar>> EditItem(int UId, int id, CalendarViewModel viewModel)
         {
             try
             {
 
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -119,7 +119,7 @@ namespace organizer_backend_NET.Implements.Services
                 var response = await _repository.Update(itemResponse);
                 return new BaseResponse<Calendar>()
                 {
-                    Descritption =  nameof(EMessage.update_succes),
+                    Description =  nameof(EMessage.update_succes),
                     StatusCode = EStatusCode.Edited,
                     Data = response,
                 };
@@ -129,23 +129,23 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<Calendar>()
                 {
-                    Descritption = $"[DeleteItem] : {ex.Message}",
+                    Description = $"[DeleteItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<Calendar>>> GetAll()
+        public async Task<IBaseResponse<IEnumerable<Calendar>>> GetAll(int UId)
         {
             try
             {
-                var itemsResponse = await _repository.Read().Where(item => item.DeleteAt == null).ToListAsync();
+                var itemsResponse = await _repository.Read().Where(item => item.UId == UId && item.DeleteAt == null).ToListAsync();
 
                 if (itemsResponse == null)
                 {
                     return new BaseResponse<IEnumerable<Calendar>>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -160,23 +160,23 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<IEnumerable<Calendar>>()
                 {
-                    Descritption = $"[GetAll] : {ex.Message}",
+                    Description = $"[GetAll] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<Calendar>> GetItemById(int id)
+        public async Task<IBaseResponse<Calendar>> GetItemById(int UId, int id)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -192,23 +192,23 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<Calendar>()
                 {
-                    Descritption = $"[GetItemById] : {ex.Message}",
+                    Description = $"[GetItemById] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<Calendar>> GetItemByName(string name)
+        public async Task<IBaseResponse<Calendar>> GetItemByName(int UId, string name)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Name == name && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Name == name && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -223,23 +223,23 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<Calendar>()
                 {
-                    Descritption = $"[GetItemByName] : {ex.Message}",
+                    Description = $"[GetItemByName] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<Calendar>> RestoreItem(int id)
+        public async Task<IBaseResponse<Calendar>> RestoreItem(int UId, int id)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt != null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt != null);
 
                 if (itemResponse == null)
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -249,7 +249,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<Calendar>()
                 {
-                    Descritption = nameof(EMessage.restore_succes),
+                    Description = nameof(EMessage.restore_succes),
                     StatusCode = EStatusCode.OK,
                     Data = itemResponse,
                 };
@@ -259,7 +259,7 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<Calendar>()
                 {
-                    Descritption = $"[RestoreItem] : {ex.Message}",
+                    Description = $"[RestoreItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }

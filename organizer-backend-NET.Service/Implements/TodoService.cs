@@ -19,7 +19,7 @@ namespace organizer_backend_NET.Implements.Services
             _repository = todoRespository;
         }
 
-        public async Task<IBaseResponse<bool>> CreateItem(TodoViewModel viewModel)
+        public async Task<IBaseResponse<bool>> CreateItem(int UId ,TodoViewModel viewModel)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 var newItem = new Todo()
                 {
-                    UId = 1, //!
+                    UId = UId,
                     Name = viewModel.Name,
                     Background = viewModel.Background,
                     Category = viewModel.Category,
@@ -42,7 +42,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Descritption = nameof(EMessage.create_succes),
+                    Description = nameof(EMessage.create_succes),
                     StatusCode = EStatusCode.OK,
                 };
             }
@@ -50,23 +50,23 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<bool>()
                 {
-                    Descritption = $"[CreateItem] : {ex.Message}",
+                    Description = $"[CreateItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<bool>> RemoveItem(int id)
+        public async Task<IBaseResponse<bool>> RemoveItem(int UId, int id)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
                     return new BaseResponse<bool>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -76,7 +76,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Descritption = nameof(EMessage.delete_succes),
+                    Description = nameof(EMessage.delete_succes),
                     StatusCode = EStatusCode.OK,
                     Data = true,
                 };
@@ -86,23 +86,23 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<bool>()
                 {
-                    Descritption = $"[DeleteItem] : {ex.Message}",
+                    Description = $"[DeleteItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<Todo>> EditItem(int id, TodoViewModel viewModel)
+        public async Task<IBaseResponse<Todo>> EditItem(int UId, int id, TodoViewModel viewModel)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
                     return new BaseResponse<Todo>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -118,7 +118,7 @@ namespace organizer_backend_NET.Implements.Services
                 var response = await _repository.Update(itemResponse);
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = nameof(EMessage.update_succes),
+                    Description = nameof(EMessage.update_succes),
                     StatusCode = EStatusCode.Edited,
                     Data = response,
                 };
@@ -127,23 +127,23 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = $"[EditItem] : {ex.Message}",
+                    Description = $"[EditItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<Todo>>> GetAll()
+        public async Task<IBaseResponse<IEnumerable<Todo>>> GetAll(int UId)
         {
             try
             {
-                var itemsResponse = await _repository.Read().Where(item => item.DeleteAt == null).ToListAsync();
+                var itemsResponse = await _repository.Read().Where(item => item.UId == UId && item.DeleteAt == null).ToListAsync();
 
                 if (itemsResponse == null)
                 {
                     return new BaseResponse<IEnumerable<Todo>>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -158,23 +158,23 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<IEnumerable<Todo>>()
                 {
-                    Descritption = $"[GetAll] : {ex.Message}",
+                    Description = $"[GetAll] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<Todo>> GetItemById(int id)
+        public async Task<IBaseResponse<Todo>> GetItemById(int UId, int id)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
                     return new BaseResponse<Todo>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -190,23 +190,23 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = $"[GetItemById] : {ex.Message}",
+                    Description = $"[GetItemById] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<Todo>> GetItemByName(string name)
+        public async Task<IBaseResponse<Todo>> GetItemByName(int UId, string name)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Name == name && item.DeleteAt == null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Name == name && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
                     return new BaseResponse<Todo>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -221,23 +221,23 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = $"[GetItemByName] : {ex.Message}",
+                    Description = $"[GetItemByName] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
         }
 
-        public async Task<IBaseResponse<Todo>> RestoreItem(int id)
+        public async Task<IBaseResponse<Todo>> RestoreItem(int UId, int id)
         {
             try
             {
-                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Id == id && item.DeleteAt != null);
+                var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt != null);
 
                 if (itemResponse == null)
                 {
                     return new BaseResponse<Todo>()
                     {
-                        Descritption = nameof(EMessage.not_found),
+                        Description = nameof(EMessage.not_found),
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -247,7 +247,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = nameof(EMessage.restore_succes),
+                    Description = nameof(EMessage.restore_succes),
                     StatusCode = EStatusCode.OK,
                     Data = itemResponse,
                 };
@@ -257,7 +257,7 @@ namespace organizer_backend_NET.Implements.Services
             {
                 return new BaseResponse<Todo>()
                 {
-                    Descritption = $"[RestoreItem] : {ex.Message}",
+                    Description = $"[RestoreItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
                 };
             }
