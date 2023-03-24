@@ -5,7 +5,6 @@ using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Interfaces.IControllers;
 using organizer_backend_NET.Implements.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using organizer_backend_NET.Implements.Services;
 
 namespace organizer_backend_NET.Controllers
 {
