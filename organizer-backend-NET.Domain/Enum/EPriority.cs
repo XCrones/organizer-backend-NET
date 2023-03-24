@@ -1,17 +1,21 @@
 ﻿
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace organizer_backend_NET.Domain.Enum
 {
     public enum EPriority
     {
-        [Description("Hight")]
-        HIGHT,
+        [EnumMember(Value = "hight")]
+        [Description("hight")]
+        hight,
 
-        [Description("Medium")]
-        MEDIUM,
+        [EnumMember(Value = "medium")]
+        [Description("medium")]
+        medium,
 
-        [Description("Low")]
-        LOW,
+        [EnumMember(Value = "low")]
+        [Description("low")]
+        low,
     }
 }
