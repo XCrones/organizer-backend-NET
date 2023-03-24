@@ -23,7 +23,8 @@ namespace organizer_backend_NET.Domain.ViewModel
         [Required]
         public bool Status { get; set; }
 
-        [Required, StringLength(20, MinimumLength = 4)]
+        [Required]
+        [StringLength(20, MinimumLength = 4)]
         public string Background { get; set; }
     }
 }
