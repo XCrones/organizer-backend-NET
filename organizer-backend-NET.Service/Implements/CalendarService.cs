@@ -8,6 +8,7 @@ using organizer_backend_NET.Domain.Messages;
 using organizer_backend_NET.Domain.Response;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Implements.Interfaces;
+using System.Net;
 
 namespace organizer_backend_NET.Implements.Services
 {
@@ -46,14 +47,15 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        StatusCode = EStatusCode.InternalServerError,
+                        StatusCode = HttpStatusCode.InternalServerError,
                         Description = AppMessages.NewItemNotFound,
                     };
                 }
 
                 return new BaseResponse<Calendar>()
                 {
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.Created,
+                    Description = AppMessages.CreateSucces,
                     Data = result,
                 };
             }
@@ -62,7 +64,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Calendar>()
                 {
                     Description = $"[CreateItem] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -78,7 +80,7 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<bool>()
                     {
                         Description = AppMessages.NotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
@@ -88,7 +90,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<bool>()
                 {
                     Description = AppMessages.RemoveSucces,
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = true,
                 };
             }
@@ -97,7 +99,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<bool>()
                 {
                     Description = $"[DeleteItem] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -113,7 +115,7 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<Calendar>()
                     {
                         Description = AppMessages.NotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
@@ -128,7 +130,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Calendar>()
                 {
                     Description =  AppMessages.UpdateSucces,
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = response,
                 };
             }
@@ -137,7 +139,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Calendar>()
                 {
                     Description = $"[DeleteItem] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -153,13 +155,13 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<IEnumerable<Calendar>>()
                     {
                         Description = AppMessages.NotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
                 return new BaseResponse<IEnumerable<Calendar>>()
                 {
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = itemsResponse,
                 };
             }
@@ -168,7 +170,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<IEnumerable<Calendar>>()
                 {
                     Description = $"[GetAll] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -184,13 +186,13 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<Calendar>()
                     {
                         Description = AppMessages.NotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
                 return new BaseResponse<Calendar>()
                 {
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = itemResponse,
                 };
 
@@ -200,7 +202,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Calendar>()
                 {
                     Description = $"[GetItemById] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -216,13 +218,13 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<Calendar>()
                     {
                         Description = AppMessages.NotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
                 return new BaseResponse<Calendar>()
                 {
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = itemResponse,
                 };
             }
@@ -231,7 +233,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Calendar>()
                 {
                     Description = $"[GetItemByName] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -247,7 +249,7 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<Calendar>()
                     {
                         Description = AppMessages.NotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
@@ -257,7 +259,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Calendar>()
                 {
                     Description = AppMessages.RestoreSucces,
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = itemResponse,
                 };
 
@@ -267,7 +269,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Calendar>()
                 {
                     Description = $"[RestoreItem] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }

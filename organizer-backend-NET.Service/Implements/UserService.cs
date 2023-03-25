@@ -2,12 +2,12 @@
 using organizer_backend_NET.DAL.Interfaces;
 using organizer_backend_NET.Domain.Helpers;
 using organizer_backend_NET.Domain.Entity;
-using organizer_backend_NET.Domain.Enums;
 using organizer_backend_NET.Domain.Interfaces;
 using organizer_backend_NET.Domain.Response;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Implements.Interfaces;
 using organizer_backend_NET.Domain.Messages;
+using System.Net;
 
 namespace organizer_backend_NET.Implements.Services
 {
@@ -38,7 +38,7 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<User>()
                     {
                         Description = AppMessages.EmailIsBusy,
-                        StatusCode = EStatusCode.BadRequest,
+                        StatusCode = HttpStatusCode.BadRequest,
                     };
                 }
 
@@ -54,11 +54,10 @@ namespace organizer_backend_NET.Implements.Services
 
                 await _repository.Create(newItem);
 
-
                 return new BaseResponse<User>()
                 {
                     Description = AppMessages.CreateSucces,
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.Created,
                     Data = newItem,
                 };
             } catch (Exception ex)
@@ -66,7 +65,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<User>()
                 {
                     Description = $"[Get] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -83,7 +82,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<User>()
                     {
-                        StatusCode = EStatusCode.OK,
+                        StatusCode = HttpStatusCode.OK,
                         Data = itemResponse,
                     };
                 }
@@ -91,14 +90,14 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<User>()
                 {
                     Description = AppMessages.IncorrectEmilOrPassword,
-                    StatusCode = EStatusCode.BadRequest,
+                    StatusCode = HttpStatusCode.BadRequest,
                 };
             } catch (Exception ex)
             {
                 return new BaseResponse<User>()
                 {
                     Description = $"[SignIn] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -114,13 +113,13 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<User>()
                     {
                         Description = AppMessages.UserNotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
                 return new BaseResponse<User>()
                 {
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = itemResponse,
                 };
 
@@ -129,7 +128,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<User>()
                 {
                     Description = $"[GetItem] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -145,7 +144,7 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<bool>()
                     {
                         Description = AppMessages.UserNotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
@@ -154,8 +153,8 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Description = AppMessages.RestoreSucces,
-                    StatusCode = EStatusCode.OK,
+                    Description = AppMessages.RemoveSucces,
+                    StatusCode = HttpStatusCode.OK,
                     Data = true,
                 };
             }
@@ -164,7 +163,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<bool>()
                 {
                     Description = $"[RemoveItem] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -180,7 +179,7 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<User>()
                     {
                         Description = AppMessages.UserNotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
@@ -191,7 +190,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<User>()
                 {
                     Description = AppMessages.RestoreSucces,
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = itemResponse,
                 };
             }
@@ -200,7 +199,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<User>()
                 {
                     Description = $"[RestoreItem] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -216,7 +215,7 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<User>()
                     {
                         Description = AppMessages.UserNotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
@@ -229,7 +228,7 @@ namespace organizer_backend_NET.Implements.Services
                         return new BaseResponse<User>()
                         {
                             Description = AppMessages.EmailIsBusy,
-                            StatusCode = EStatusCode.BadRequest,
+                            StatusCode = HttpStatusCode.BadRequest,
                         };
                     } else
                     {
@@ -246,7 +245,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<User>()
                 {
                     Description = AppMessages.UpdateSucces,
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = response,
                 };
             }
@@ -255,7 +254,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<User>()
                 {
                     Description = $"[RestoreItem] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }

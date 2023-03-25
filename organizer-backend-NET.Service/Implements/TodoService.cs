@@ -1,5 +1,4 @@
-﻿using organizer_backend_NET.Domain.Enums;
-using organizer_backend_NET.Domain.Response;
+﻿using organizer_backend_NET.Domain.Response;
 using Microsoft.EntityFrameworkCore;
 using organizer_backend_NET.Domain.Helpers;
 using organizer_backend_NET.Domain.Entity;
@@ -8,6 +7,7 @@ using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Domain.Interfaces;
 using organizer_backend_NET.DAL.Interfaces;
 using organizer_backend_NET.Domain.Messages;
+using System.Net;
 
 namespace organizer_backend_NET.Implements.Services
 {
@@ -47,14 +47,14 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Todo>()
                     {
-                        StatusCode = EStatusCode.InternalServerError,
+                        StatusCode = HttpStatusCode.InternalServerError,
                         Description = AppMessages.NewItemNotFound,
                     };
                 }
 
                 return new BaseResponse<Todo>()
                 {
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.Created,
                     Data = result,
                 };
             }
@@ -63,7 +63,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Todo>()
                 {
                     Description = $"[CreateItem] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -79,7 +79,7 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<bool>()
                     {
                         Description = AppMessages.NotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
@@ -89,7 +89,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<bool>()
                 {
                     Description = AppMessages.RemoveSucces,
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = true,
                 };
 
@@ -99,7 +99,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<bool>()
                 {
                     Description = $"[DeleteItem] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -115,7 +115,7 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<Todo>()
                     {
                         Description = AppMessages.NotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
@@ -132,7 +132,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Todo>()
                 {
                     Description = AppMessages.UpdateSucces,
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = itemResponse,
                 };
             }
@@ -141,7 +141,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Todo>()
                 {
                     Description = $"[EditItem] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -157,13 +157,13 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<IEnumerable<Todo>>()
                     {
                         Description = AppMessages.NotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
                 return new BaseResponse<IEnumerable<Todo>>()
                 {
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = itemsResponse,
                 };
             }
@@ -172,7 +172,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<IEnumerable<Todo>>()
                 {
                     Description = $"[GetAll] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -188,13 +188,13 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<Todo>()
                     {
                         Description = AppMessages.NotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
                 return new BaseResponse<Todo>()
                 {
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = itemResponse,
                 };
 
@@ -204,7 +204,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Todo>()
                 {
                     Description = $"[GetItemById] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -220,13 +220,13 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<Todo>()
                     {
                         Description = AppMessages.NotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
                 return new BaseResponse<Todo>()
                 {
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = itemResponse,
                 };
             }
@@ -235,7 +235,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Todo>()
                 {
                     Description = $"[GetItemByName] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
@@ -251,7 +251,7 @@ namespace organizer_backend_NET.Implements.Services
                     return new BaseResponse<Todo>()
                     {
                         Description = AppMessages.NotFound,
-                        StatusCode = EStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.NotFound,
                     };
                 }
 
@@ -261,7 +261,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Todo>()
                 {
                     Description = AppMessages.RestoreSucces,
-                    StatusCode = EStatusCode.OK,
+                    StatusCode = HttpStatusCode.OK,
                     Data = itemResponse,
                 };
 
@@ -271,7 +271,7 @@ namespace organizer_backend_NET.Implements.Services
                 return new BaseResponse<Todo>()
                 {
                     Description = $"[RestoreItem] : {ex.Message}",
-                    StatusCode = EStatusCode.InternalServerError,
+                    StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
         }
