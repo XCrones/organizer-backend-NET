@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using organizer_backend_NET.Domain.Entity;
 using organizer_backend_NET.Domain.Enums;
-using organizer_backend_NET.Domain.Interfaces;
 using organizer_backend_NET.Domain.Response;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Implements.Interfaces;
@@ -28,10 +27,12 @@ namespace organizer_backend_NET.Controllers
 
         private string GenerateToken(int UId)
         {
+            var key = _options.SecretKey;
+
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim("UId", $"{UId}"));
 
-            var signUpKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
+            var signUpKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 
             var jwt = new JwtSecurityToken(
                     issuer: _options.Issuer,
@@ -46,52 +47,41 @@ namespace organizer_backend_NET.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task<ISignResponse<User>> SignUp(SignupViewModel model)
+        public async Task<IActionResult> SignUp(SignupViewModel model)
         {
-            var key = _options.SecretKey;
-
             var response = await _userService.SignUp(model);
 
             if (response.StatusCode != EStatusCode.OK)
             {
-                Response.StatusCode = 400;
-                return new SignInResponse<User>()
-                {
-                    Description = response.Description
-                };
+                return BadRequest(response.Description);
             }
 
             var token = GenerateToken(response.Data.UId);
 
-            return new SignInResponse<User>() { 
+            return Ok(new SignInResponse<User>()
+            {
                 Token = token,
                 UserData = response.Data
-            };
+            });
         }
 
         [HttpPost("signin")]
-        public async Task<ISignResponse<User>> SignIn(SigninViewModel model) {
-
-            var key = _options.SecretKey;
+        public async Task<IActionResult> SignIn(SigninViewModel model) {
 
             var response = await _userService.SignIn(model);
 
             if (response.StatusCode != EStatusCode.OK)
             {
-                Response.StatusCode = 400;
-                return new SignInResponse<User>()
-                {
-                    Description = response.Description
-                };
+                return BadRequest(response.Description);
             }
 
             var token = GenerateToken(response.Data.UId);
 
-            return new SignInResponse<User>()
+            return Ok(new SignInResponse<User>()
             {
                 Token = token,
                 UserData = response.Data
-            };
+            });
         }
     }
 }

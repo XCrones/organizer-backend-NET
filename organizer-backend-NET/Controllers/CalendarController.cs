@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using organizer_backend_NET.Domain.Entity;
-using organizer_backend_NET.Domain.Interfaces;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Interfaces.IControllers;
 using organizer_backend_NET.Implements.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using organizer_backend_NET.Domain.Enums;
 
 namespace organizer_backend_NET.Controllers
 {
@@ -39,86 +38,128 @@ namespace organizer_backend_NET.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IBaseResponse<bool>> Create(CalendarViewModel model)
+        public async Task<IActionResult> Create(CalendarViewModel model)
         {
             int UId = GetUId();
 
             if (UId != -1)
             {
-                return await _calendarService.CreateItem(UId, model);
+                var result =  await _calendarService.CreateItem(UId, model);
+
+                if (result.StatusCode == EStatusCode.OK)
+                {
+                    return Created("", result.Data);
+                }
+
+                return BadRequest(result.Description);
             }
 
-            return (IBaseResponse<bool>)BadRequest("Value must be passed in the request body.");
+            return Unauthorized();
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<IBaseResponse<IEnumerable<Calendar>>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             int UId = GetUId();
 
             if (UId != -1)
             {
-                return await _calendarService.GetAll(UId);
+                var result = await _calendarService.GetAll(UId);
+
+                if (result.StatusCode == EStatusCode.OK)
+                {
+                    return Created("", result.Data);
+                }
+
+                return BadRequest(result.Description);
             }
 
-            return (IBaseResponse<IEnumerable<Calendar>>)BadRequest("Value must be passed in the request body.");
+            return Unauthorized();
         }
 
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<IBaseResponse<Calendar>> GetOne(int id)
+        public async Task<IActionResult> GetOne(int id)
         {
             int UId = GetUId();
 
             if (UId != -1)
             {
-                return await _calendarService.GetItemById(UId ,id);
+                var result = await _calendarService.GetItemById(UId ,id);
+
+                if (result.StatusCode == EStatusCode.OK)
+                {
+                    return Created("", result.Data);
+                }
+
+                return BadRequest(result.Description);
             }
 
-            return (IBaseResponse<Calendar>)BadRequest("Value must be passed in the request body.");
+            return Unauthorized();
         }
 
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<IBaseResponse<bool>> Remove(int id)
+        public async Task<IActionResult> Remove(int id)
         {
             int UId = GetUId();
 
             if (UId != -1)
             {
-                return await _calendarService.RemoveItem(UId ,id);
+                var result = await _calendarService.RemoveItem(UId ,id);
+
+                if (result.StatusCode == EStatusCode.OK)
+                {
+                    return Created("", result.Data);
+                }
+
+                return BadRequest(result.Description);
             }
 
-            return (IBaseResponse<bool>)BadRequest("Value must be passed in the request body.");
+            return Unauthorized();
         }
 
         [Authorize]
         [HttpPost("restore/{id}")]
-        public async Task<IBaseResponse<Calendar>> Restore(int id)
+        public async Task<IActionResult> Restore(int id)
         {
             int UId = GetUId();
 
             if (UId != -1)
             {
-                return await _calendarService.RestoreItem(UId ,id);
+                var result = await _calendarService.RestoreItem(UId ,id);
+
+                if (result.StatusCode == EStatusCode.OK)
+                {
+                    return Created("", result.Data);
+                }
+
+                return BadRequest(result.Description);
             }
 
-            return (IBaseResponse<Calendar>)BadRequest("Value must be passed in the request body.");
+            return Unauthorized();
         }
 
         [Authorize]
         [HttpPatch("{id}")]
-        public async Task<IBaseResponse<Calendar>> Save(int id, CalendarViewModel model)
+        public async Task<IActionResult> Save(int id, CalendarViewModel model)
         {
             int UId = GetUId();
 
             if (UId != -1)
             {
-                return await _calendarService.EditItem(UId ,id, model);
+                var result = await _calendarService.EditItem(UId ,id, model);
+
+                if (result.StatusCode == EStatusCode.OK)
+                {
+                    return Created("", result.Data);
+                }
+
+                return BadRequest(result.Description);
             }
 
-            return (IBaseResponse<Calendar>)BadRequest("Value must be passed in the request body.");
+            return Unauthorized();
         }
     }
 }
