@@ -19,7 +19,7 @@ namespace organizer_backend_NET.DAL.Repository
             return true;
         }
 
-        public async Task<bool> Remove(User entity)
+        public async Task<bool> Delete(User entity)
         {
             _db.UserDB.Remove(entity);
             await _db.SaveChangesAsync();
