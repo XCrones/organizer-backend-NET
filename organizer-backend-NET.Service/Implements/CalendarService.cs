@@ -4,6 +4,7 @@ using organizer_backend_NET.DAL.Interfaces;
 using organizer_backend_NET.Domain.Entity;
 using organizer_backend_NET.Domain.Enums;
 using organizer_backend_NET.Domain.Interfaces;
+using organizer_backend_NET.Domain.Messages;
 using organizer_backend_NET.Domain.Response;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Implements.Interfaces;
@@ -19,13 +20,13 @@ namespace organizer_backend_NET.Implements.Services
             _repository = calendarRepository;
         }
 
-        public async Task<IBaseResponse<bool>> CreateItem(int UId, CalendarViewModel viewModel)
+        public async Task<IBaseResponse<Calendar>> CreateItem(int UId, CalendarViewModel viewModel)
         {
             try
             {
                 DateTime timeStamp = DateTime.UtcNow;
 
-                var newEvent = new Calendar()
+                var newItem = new Calendar()
                 {
                     UId = UId,
                     Name = viewModel.Name,
@@ -37,19 +38,28 @@ namespace organizer_backend_NET.Implements.Services
                     UpdatedAt = timeStamp,
                 };
 
-                await _repository.Create(newEvent);
+                await _repository.Create(newItem);
 
-                return new BaseResponse<bool>()
+                var result = await _repository.Read().FirstOrDefaultAsync(item => item.UId == newItem.UId && item.CreatedAt == timeStamp && item.DeleteAt == null);
+
+                if (result == null)
                 {
-                    Description = nameof(EMessage.create_succes),
+                    return new BaseResponse<Calendar>()
+                    {
+                        StatusCode = EStatusCode.InternalServerError,
+                        Description = AppMessages.NewItemNotFound,
+                    };
+                }
+
+                return new BaseResponse<Calendar>()
+                {
                     StatusCode = EStatusCode.OK,
+                    Data = result,
                 };
-
-
             }
             catch (Exception ex)
             {
-                return new BaseResponse<bool>()
+                return new BaseResponse<Calendar>()
                 {
                     Description = $"[CreateItem] : {ex.Message}",
                     StatusCode = EStatusCode.InternalServerError,
@@ -67,7 +77,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<bool>()
                     {
-                        Description = nameof(EMessage.not_found),
+                        Description = AppMessages.NotFound,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -77,7 +87,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Description = nameof(EMessage.delete_succes),
+                    Description = AppMessages.RemoveSucces,
                     StatusCode = EStatusCode.OK,
                     Data = true,
                 };
@@ -96,18 +106,16 @@ namespace organizer_backend_NET.Implements.Services
         {
             try
             {
-
                 var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.UId == UId && item.Id == id && item.DeleteAt == null);
 
                 if (itemResponse == null)
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        Description = nameof(EMessage.not_found),
+                        Description = AppMessages.NotFound,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
-
 
                 itemResponse.Name = viewModel.Name;
                 itemResponse.Description = viewModel.Description;
@@ -119,11 +127,10 @@ namespace organizer_backend_NET.Implements.Services
                 var response = await _repository.Update(itemResponse);
                 return new BaseResponse<Calendar>()
                 {
-                    Description =  nameof(EMessage.update_succes),
-                    StatusCode = EStatusCode.Edited,
+                    Description =  AppMessages.UpdateSucces,
+                    StatusCode = EStatusCode.OK,
                     Data = response,
                 };
-
             }
             catch (Exception ex)
             {
@@ -145,7 +152,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<IEnumerable<Calendar>>()
                     {
-                        Description = nameof(EMessage.not_found),
+                        Description = AppMessages.NotFound,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -176,7 +183,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        Description = nameof(EMessage.not_found),
+                        Description = AppMessages.NotFound,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -208,7 +215,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        Description = nameof(EMessage.not_found),
+                        Description = AppMessages.NotFound,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -239,7 +246,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<Calendar>()
                     {
-                        Description = nameof(EMessage.not_found),
+                        Description = AppMessages.NotFound,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -249,7 +256,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<Calendar>()
                 {
-                    Description = nameof(EMessage.restore_succes),
+                    Description = AppMessages.RestoreSucces,
                     StatusCode = EStatusCode.OK,
                     Data = itemResponse,
                 };

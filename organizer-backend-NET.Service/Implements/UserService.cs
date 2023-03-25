@@ -7,6 +7,7 @@ using organizer_backend_NET.Domain.Interfaces;
 using organizer_backend_NET.Domain.Response;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Implements.Interfaces;
+using organizer_backend_NET.Domain.Messages;
 
 namespace organizer_backend_NET.Implements.Services
 {
@@ -36,7 +37,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<User>()
                     {
-                        Description = nameof(EMessage.email_busy),
+                        Description = AppMessages.EmailIsBusy,
                         StatusCode = EStatusCode.BadRequest,
                     };
                 }
@@ -56,7 +57,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<User>()
                 {
-                    Description = nameof(EMessage.create_succes),
+                    Description = AppMessages.CreateSucces,
                     StatusCode = EStatusCode.OK,
                     Data = newItem,
                 };
@@ -89,7 +90,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<User>()
                 {
-                    Description = nameof(EMessage.user_not_found),
+                    Description = AppMessages.IncorrectEmilOrPassword,
                     StatusCode = EStatusCode.BadRequest,
                 };
             } catch (Exception ex)
@@ -112,7 +113,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<User>()
                     {
-                        Description = nameof(EMessage.not_found),
+                        Description = AppMessages.UserNotFound,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -143,7 +144,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<bool>()
                     {
-                        Description = nameof(EMessage.not_found),
+                        Description = AppMessages.UserNotFound,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -153,7 +154,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<bool>()
                 {
-                    Description = nameof(EMessage.delete_succes),
+                    Description = AppMessages.RestoreSucces,
                     StatusCode = EStatusCode.OK,
                     Data = true,
                 };
@@ -178,7 +179,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<User>()
                     {
-                        Description = nameof(EMessage.not_found),
+                        Description = AppMessages.UserNotFound,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -189,7 +190,7 @@ namespace organizer_backend_NET.Implements.Services
 
                 return new BaseResponse<User>()
                 {
-                    Description = nameof(EMessage.restore_succes),
+                    Description = AppMessages.RestoreSucces,
                     StatusCode = EStatusCode.OK,
                     Data = itemResponse,
                 };
@@ -214,7 +215,7 @@ namespace organizer_backend_NET.Implements.Services
                 {
                     return new BaseResponse<User>()
                     {
-                        Description = nameof(EMessage.not_found),
+                        Description = AppMessages.UserNotFound,
                         StatusCode = EStatusCode.NotFound,
                     };
                 }
@@ -227,7 +228,7 @@ namespace organizer_backend_NET.Implements.Services
                     {
                         return new BaseResponse<User>()
                         {
-                            Description = nameof(EMessage.email_busy),
+                            Description = AppMessages.EmailIsBusy,
                             StatusCode = EStatusCode.BadRequest,
                         };
                     } else
@@ -244,8 +245,8 @@ namespace organizer_backend_NET.Implements.Services
                 var response = await _repository.Update(itemResponse);
                 return new BaseResponse<User>()
                 {
-                    Description = nameof(EMessage.update_succes),
-                    StatusCode = EStatusCode.Edited,
+                    Description = AppMessages.UpdateSucces,
+                    StatusCode = EStatusCode.OK,
                     Data = response,
                 };
             }
