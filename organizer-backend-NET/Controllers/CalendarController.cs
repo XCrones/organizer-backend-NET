@@ -3,7 +3,9 @@ using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Interfaces.IControllers;
 using organizer_backend_NET.Implements.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using organizer_backend_NET.Domain.Enums;
+using organizer_backend_NET.Response;
+using System.Net;
+using organizer_backend_NET.Domain.Entity;
 
 namespace organizer_backend_NET.Controllers
 {
@@ -46,12 +48,21 @@ namespace organizer_backend_NET.Controllers
             {
                 var result =  await _calendarService.CreateItem(UId, model);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.Created)
                 {
-                    return Created("", result.Data);
+                    return Created("", new ActionResponse<Calendar>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                return BadRequest(new ActionResponse<Calendar>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -67,12 +78,21 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _calendarService.GetAll(UId);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Created("", result.Data);
+                    return Ok(new ActionResponse<IEnumerable<Calendar>>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                return BadRequest(new ActionResponse<Calendar>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -88,12 +108,30 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _calendarService.GetItemById(UId ,id);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Created("", result.Data);
+                    return Ok(new ActionResponse<Calendar>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return NotFound(new ActionResponse<Calendar>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
+                }
+
+                return BadRequest(new ActionResponse<Calendar>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -109,12 +147,30 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _calendarService.RemoveItem(UId ,id);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Created("", result.Data);
+                    return Ok(new ActionResponse<bool>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return NotFound(new ActionResponse<Calendar>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
+                }
+
+                return BadRequest(new ActionResponse<Calendar>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -130,12 +186,30 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _calendarService.RestoreItem(UId ,id);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Created("", result.Data);
+                    return Ok(new ActionResponse<Calendar>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return NotFound(new ActionResponse<Calendar>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
+                }
+
+                return BadRequest(new ActionResponse<Calendar>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -151,12 +225,29 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _calendarService.EditItem(UId ,id, model);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Created("", result.Data);
+                    return Ok(new ActionResponse<Calendar> {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return NotFound(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
+                }
+
+                return BadRequest(new ActionResponse<Calendar>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();

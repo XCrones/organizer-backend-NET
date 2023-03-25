@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using organizer_backend_NET.Domain.Enums;
+using organizer_backend_NET.Domain.Entity;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Implements.Interfaces;
+using organizer_backend_NET.Response;
+using System.Net;
 
 namespace organizer_backend_NET.Controllers
 {
@@ -47,12 +49,30 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _userService.GetItem(UId);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Created("", result.Data);
+                    return Ok(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return NotFound(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
+                }
+
+                return BadRequest(new ActionResponse<User>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -60,7 +80,7 @@ namespace organizer_backend_NET.Controllers
 
         [Authorize]
         [HttpDelete("profile")]
-        public async Task<IActionResult> DeleteUser()
+        public async Task<IActionResult> RemoseUser()
         {
             int UId = GetUId();
 
@@ -68,12 +88,30 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _userService.RemoveItem(UId);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Created("", result.Data);
+                    return Ok(new ActionResponse<bool>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return NotFound(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
+                }
+
+                return BadRequest(new ActionResponse<bool>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -89,12 +127,30 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _userService.RestoreItem(UId);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Created("", result.Data);
+                    return Ok(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return NotFound(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
+                }
+
+                return BadRequest(new ActionResponse<User>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -110,12 +166,30 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _userService.EditItem(UId, model);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Created("", result.Data);
+                    return Ok(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return NotFound(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
+                }
+
+                return BadRequest(new ActionResponse<User>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();

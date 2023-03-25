@@ -2,12 +2,12 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using organizer_backend_NET.Domain.Entity;
-using organizer_backend_NET.Domain.Enums;
-using organizer_backend_NET.Domain.Response;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Implements.Interfaces;
+using organizer_backend_NET.Response;
 using organizer_backend_NET.Settings;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -49,38 +49,49 @@ namespace organizer_backend_NET.Controllers
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp(SignupViewModel model)
         {
-            var response = await _userService.SignUp(model);
+            var result = await _userService.SignUp(model);
 
-            if (response.StatusCode != EStatusCode.OK)
+            if (result.StatusCode != HttpStatusCode.Created)
             {
-                return BadRequest(response.Description);
+                return BadRequest(new ActionResponse<User>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
-            var token = GenerateToken(response.Data.UId);
+            var token = GenerateToken(result.Data.UId);
 
-            return Ok(new SignInResponse<User>()
-            {
-                Token = token,
-                UserData = response.Data
+            return Created("", new LoginResponse {
+                Code = result.StatusCode,
+                Message = result.Description,
+                Data = result.Data,
+                Token = token
             });
         }
 
         [HttpPost("signin")]
         public async Task<IActionResult> SignIn(SigninViewModel model) {
 
-            var response = await _userService.SignIn(model);
+            var result = await _userService.SignIn(model);
 
-            if (response.StatusCode != EStatusCode.OK)
+            if (result.StatusCode != HttpStatusCode.OK)
             {
-                return BadRequest(response.Description);
+                return BadRequest(new ActionResponse<User>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
-            var token = GenerateToken(response.Data.UId);
+            var token = GenerateToken(result.Data.UId);
 
-            return Ok(new SignInResponse<User>()
+            return Ok(new LoginResponse
             {
-                Token = token,
-                UserData = response.Data
+                Code = result.StatusCode,
+                Message = result.Description,
+                Data = result.Data,
+                Token = token
             });
         }
     }

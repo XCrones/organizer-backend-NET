@@ -2,8 +2,10 @@
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Implements.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using organizer_backend_NET.Domain.Enums;
 using organizer_backend_NET.Interfaces.IControllers;
+using organizer_backend_NET.Response;
+using organizer_backend_NET.Domain.Entity;
+using System.Net;
 
 namespace organizer_backend_NET.Controllers
 {
@@ -47,12 +49,21 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _todoService.CreateItem(UId, model);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.Created)
                 {
-                    return Created("", result.Data);
+                    return Created("", new ActionResponse<Todo>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                return BadRequest(new ActionResponse<Todo>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -68,12 +79,21 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _todoService.GetAll(UId);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Ok(result.Data);
+                    return Ok(new ActionResponse<IEnumerable<Todo>>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                return BadRequest(new ActionResponse<Todo>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -89,17 +109,30 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _todoService.GetItemById(UId, id);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Ok(result.Data);
+                    return Ok(new ActionResponse<Todo>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                if (result.StatusCode == EStatusCode.NotFound)
+                if (result.StatusCode == HttpStatusCode.NotFound)
                 {
-                    return NotFound(result.Description);
+                    return NotFound(new ActionResponse<Todo>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                return BadRequest(new ActionResponse<Todo>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -115,17 +148,30 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _todoService.RemoveItem(UId, id);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Ok(result.Data);
+                    return Ok(new ActionResponse<bool>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                if (result.StatusCode == EStatusCode.NotFound)
+                if (result.StatusCode == HttpStatusCode.NotFound)
                 {
-                    return NotFound(result.Description);
+                    return NotFound(new ActionResponse<Todo>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                return BadRequest(new ActionResponse<bool>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -141,17 +187,30 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _todoService.RestoreItem(UId, id);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Ok(result.Data);
+                    return Ok(new ActionResponse<Todo>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                if (result.StatusCode == EStatusCode.NotFound)
+                if (result.StatusCode == HttpStatusCode.NotFound)
                 {
-                    return NotFound(result.Description);
+                    return NotFound(new ActionResponse<Todo>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                return BadRequest(new ActionResponse<Todo>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
@@ -167,17 +226,30 @@ namespace organizer_backend_NET.Controllers
             {
                 var result = await _todoService.EditItem(UId, id, model);
 
-                if (result.StatusCode == EStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Ok(result.Data);
+                    return Ok(new ActionResponse<Todo>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
                 }
 
-                if (result.StatusCode == EStatusCode.NotFound)
+                if (result.StatusCode == HttpStatusCode.NotFound)
                 {
-                    return NotFound(result.Description);
+                    return NotFound(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
                 }
 
-                return BadRequest(result.Description);
+                return BadRequest(new ActionResponse<Todo>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
             return Unauthorized();
