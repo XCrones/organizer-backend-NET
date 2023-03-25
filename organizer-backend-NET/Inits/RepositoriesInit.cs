@@ -10,6 +10,7 @@ namespace organizer_backend_NET.Services
             builder.Services.AddScoped<ITodoRespository, TodoRepository>();
             builder.Services.AddScoped<ICalendarRepository, CalendarRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
         }
     }
 }
