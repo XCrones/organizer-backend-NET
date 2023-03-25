@@ -12,7 +12,7 @@ namespace organizer_backend_NET.Implements.Interfaces
 
         Task<IBaseResponse<bool>> RemoveItem(int UId, int id);
 
-        Task<IBaseResponse<bool>> CreateItem(int UId, VM model);
+        Task<IBaseResponse<TD>> CreateItem(int UId, VM model);
 
         Task<IBaseResponse<TD>> EditItem(int UId, int id, VM model);
 
