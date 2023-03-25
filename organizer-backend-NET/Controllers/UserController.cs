@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using organizer_backend_NET.Domain.Entity;
-using organizer_backend_NET.Domain.Interfaces;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Implements.Interfaces;
+using organizer_backend_NET.Response;
+using System.Net;
 
 namespace organizer_backend_NET.Controllers
 {
@@ -40,58 +41,158 @@ namespace organizer_backend_NET.Controllers
 
         [Authorize]
         [HttpGet("profile")]
-        public async Task<IBaseResponse<User>> GetUserData()
+        public async Task<IActionResult> GetUserData()
         {
             int UId = GetUId();
 
             if (UId != -1)
             {
-                return await _userService.GetItem(UId);
+                var result = await _userService.GetItem(UId);
+
+                if (result.StatusCode == HttpStatusCode.OK)
+                {
+                    return Ok(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
+                }
+
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return NotFound(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
+                }
+
+                return BadRequest(new ActionResponse<User>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
-            return (IBaseResponse<User>)BadRequest("Value must be passed in the request body.");
+            return Unauthorized();
         }
 
         [Authorize]
         [HttpDelete("profile")]
-        public async Task<IBaseResponse<bool>> DeleteUser()
+        public async Task<IActionResult> RemoseUser()
         {
             int UId = GetUId();
 
             if (UId != -1)
             {
-                return await _userService.RemoveItem(UId);
+                var result = await _userService.RemoveItem(UId);
+
+                if (result.StatusCode == HttpStatusCode.OK)
+                {
+                    return Ok(new ActionResponse<bool>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
+                }
+
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return NotFound(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
+                }
+
+                return BadRequest(new ActionResponse<bool>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
-            return (IBaseResponse<bool>)BadRequest("Value must be passed in the request body.");
+            return Unauthorized();
         }
 
         [Authorize]
         [HttpPost("profile-restore")]
-        public async Task<IBaseResponse<User>> RestoreUser()
+        public async Task<IActionResult> RestoreUser()
         {
             int UId = GetUId();
 
             if (UId != -1)
             {
-                return await _userService.RestoreItem(UId);
+                var result = await _userService.RestoreItem(UId);
+
+                if (result.StatusCode == HttpStatusCode.OK)
+                {
+                    return Ok(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
+                }
+
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return NotFound(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
+                }
+
+                return BadRequest(new ActionResponse<User>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
-            return (IBaseResponse<User>)BadRequest("Value must be passed in the request body.");
+            return Unauthorized();
         }
 
         [Authorize]
         [HttpPatch("profile")]
-        public async Task<IBaseResponse<User>> EditUser(SignupViewModel model)
+        public async Task<IActionResult> EditUser(SignupViewModel model)
         {
             int UId = GetUId();
 
             if (UId != -1)
             {
-                return await _userService.EditItem(UId, model);
+                var result = await _userService.EditItem(UId, model);
+
+                if (result.StatusCode == HttpStatusCode.OK)
+                {
+                    return Ok(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                        Data = result.Data,
+                    });
+                }
+
+                if (result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return NotFound(new ActionResponse<User>
+                    {
+                        Message = result.Description,
+                        Code = result.StatusCode,
+                    });
+                }
+
+                return BadRequest(new ActionResponse<User>
+                {
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
-            return (IBaseResponse<User>)BadRequest("Value must be passed in the request body.");
+            return Unauthorized();
         }
     }
 }

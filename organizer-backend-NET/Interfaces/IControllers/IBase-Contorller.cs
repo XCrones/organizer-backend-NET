@@ -1,19 +1,19 @@
-﻿using organizer_backend_NET.Domain.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace organizer_backend_NET.Interfaces.IControllers
 {
-    public interface IBase_Contorller<TD, VM>
+    public interface IBase_Contorller<VM>
     {
-        public Task<IBaseResponse<IEnumerable<TD>>> GetAll();
+        public Task<IActionResult> GetAll();
 
-        public Task<IBaseResponse<TD>> GetOne(int id);
+        public Task<IActionResult> GetOne(int id);
 
-        public Task<IBaseResponse<bool>> Create(VM model);
+        public Task<IActionResult> Create(VM model);
 
-        public Task<IBaseResponse<TD>> Save(int id, VM todo);
+        public Task<IActionResult> Save(int id, VM todo);
 
-        public Task<IBaseResponse<bool>> Remove(int id);
+        public Task<IActionResult> Remove(int id);
 
-        public Task<IBaseResponse<TD>> Restore(int id);
+        public Task<IActionResult> Restore(int id);
     }
 }

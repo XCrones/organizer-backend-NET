@@ -18,7 +18,7 @@ namespace organizer_backend_NET.DAL.Repository
             return true;
         }
 
-        public async Task<bool> Remove(Domain.Entity.Calendar entity)
+        public async Task<bool> Delete(Domain.Entity.Calendar entity)
         {
             _db.CalendarDB.Remove(entity);
             await _db.SaveChangesAsync();

@@ -2,13 +2,12 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using organizer_backend_NET.Domain.Entity;
-using organizer_backend_NET.Domain.Enums;
-using organizer_backend_NET.Domain.Interfaces;
-using organizer_backend_NET.Domain.Response;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Implements.Interfaces;
+using organizer_backend_NET.Response;
 using organizer_backend_NET.Settings;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -28,10 +27,12 @@ namespace organizer_backend_NET.Controllers
 
         private string GenerateToken(int UId)
         {
+            var key = _options.SecretKey;
+
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim("UId", $"{UId}"));
 
-            var signUpKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
+            var signUpKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 
             var jwt = new JwtSecurityToken(
                     issuer: _options.Issuer,
@@ -46,52 +47,52 @@ namespace organizer_backend_NET.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task<ISignResponse<User>> SignUp(SignupViewModel model)
+        public async Task<IActionResult> SignUp(SignupViewModel model)
         {
-            var key = _options.SecretKey;
+            var result = await _userService.SignUp(model);
 
-            var response = await _userService.SignUp(model);
-
-            if (response.StatusCode != EStatusCode.OK)
+            if (result.StatusCode != HttpStatusCode.Created)
             {
-                Response.StatusCode = 400;
-                return new SignInResponse<User>()
+                return BadRequest(new ActionResponse<User>
                 {
-                    Description = response.Description
-                };
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
-            var token = GenerateToken(response.Data.UId);
+            var token = GenerateToken(result.Data.UId);
 
-            return new SignInResponse<User>() { 
-                Token = token,
-                UserData = response.Data
-            };
+            return Created("", new LoginResponse {
+                Code = result.StatusCode,
+                Message = result.Description,
+                Data = result.Data,
+                Token = token
+            });
         }
 
         [HttpPost("signin")]
-        public async Task<ISignResponse<User>> SignIn(SigninViewModel model) {
+        public async Task<IActionResult> SignIn(SigninViewModel model) {
 
-            var key = _options.SecretKey;
+            var result = await _userService.SignIn(model);
 
-            var response = await _userService.SignIn(model);
-
-            if (response.StatusCode != EStatusCode.OK)
+            if (result.StatusCode != HttpStatusCode.OK)
             {
-                Response.StatusCode = 400;
-                return new SignInResponse<User>()
+                return BadRequest(new ActionResponse<User>
                 {
-                    Description = response.Description
-                };
+                    Message = result.Description,
+                    Code = result.StatusCode,
+                });
             }
 
-            var token = GenerateToken(response.Data.UId);
+            var token = GenerateToken(result.Data.UId);
 
-            return new SignInResponse<User>()
+            return Ok(new LoginResponse
             {
-                Token = token,
-                UserData = response.Data
-            };
+                Code = result.StatusCode,
+                Message = result.Description,
+                Data = result.Data,
+                Token = token
+            });
         }
     }
 }

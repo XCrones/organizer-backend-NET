@@ -18,7 +18,7 @@ namespace organizer_backend_NET.DAL.Repository
             return true;
         }
 
-        public async Task<bool> Remove(Domain.Entity.Todo entity)
+        public async Task<bool> Delete(Domain.Entity.Todo entity)
         {
             _db.TodoDB.Remove(entity);
             await _db.SaveChangesAsync();
