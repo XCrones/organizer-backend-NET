@@ -15,6 +15,7 @@ namespace organizer_backend_NET.Inits
             builder.Services.AddScoped<IHttpClientService, HttpClientService>();
             builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
             builder.Services.AddScoped<IOpenWeatherService, OpenWeatherService>();
+            builder.Services.AddScoped<IWeatherUserService, WeatherUserService>();
         }
     }
 }
