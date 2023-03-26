@@ -1,12 +1,23 @@
 ﻿using organizer_backend_NET.Service.Interfaces;
+using System.Text.Json;
 
 namespace organizer_backend_NET.Service.Implements
 {
     public class HttpClientService : IHttpClientService
     {
-        public Task<TD?> Get<TD>(string url)
+        private readonly JsonSerializerOptions _options;
+
+        public HttpClientService()
         {
-            throw new NotImplementedException();
+            _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        }
+
+        public async Task<TD?> Get<TD>(string url)
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<TD>(content, _options);
         }
     }
 }
