@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using organizer_backend_NET.DAL;
@@ -13,9 +14,11 @@ using organizer_backend_NET.Domain.Entity;
 namespace organizer_backend_NET.DAL.Migrations
 {
     [DbContext(typeof(AppContextDb))]
-    partial class AppContextDbModelSnapshot : ModelSnapshot
+    [Migration("20230325221232_ChangeWeatherForecastTypeCodRmCodMessage")]
+    partial class ChangeWeatherForecastTypeCodRmCodMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,10 +259,10 @@ namespace organizer_backend_NET.DAL.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("cnt");
 
-                    b.Property<List<WeatherItem>>("list")
+                    b.Property<List<WeatherItem>>("weather")
                         .IsRequired()
                         .HasColumnType("jsonb")
-                        .HasColumnName("list");
+                        .HasColumnName("weather");
 
                     b.HasKey("Id");
 
