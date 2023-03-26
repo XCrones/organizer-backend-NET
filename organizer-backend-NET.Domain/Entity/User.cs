@@ -36,6 +36,6 @@ namespace organizer_backend_NET.Domain.Entity
 
         public virtual ICollection<Calendar> Calendar { get; set; }
 
-        public virtual ICollection<UserWeather> WeatherUser { get; set; }
+        public virtual ICollection<WeatherUsers> WeatherUser { get; set; }
     }
 }

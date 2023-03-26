@@ -12,23 +12,23 @@ namespace organizer_backend_NET.DAL.Repository
             _db = db;
         }
 
-        public async Task<bool> Create(UserWeather entity)
+        public async Task<bool> Create(WeatherUsers entity)
         {
             await _db.WeatherUserDB.AddAsync(entity);
             await _db.SaveChangesAsync();
             return true;
         }
 
-        public async Task<bool> Delete(UserWeather entity)
+        public async Task<bool> Delete(WeatherUsers entity)
         {
             _db.WeatherUserDB.Remove(entity);
             await _db.SaveChangesAsync();
             return true;
         }
 
-        public IQueryable<UserWeather> Read() => _db.WeatherUserDB;
+        public IQueryable<WeatherUsers> Read() => _db.WeatherUserDB;
 
-        public async Task<UserWeather> Update(UserWeather entity)
+        public async Task<WeatherUsers> Update(WeatherUsers entity)
         {
             _db.WeatherUserDB.Update(entity);
             await _db.SaveChangesAsync();

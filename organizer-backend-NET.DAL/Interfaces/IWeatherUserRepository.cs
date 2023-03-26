@@ -2,7 +2,7 @@
 
 namespace organizer_backend_NET.DAL.Interfaces
 {
-    public interface IWeatherUserRepository: IBaseRepository<UserWeather>
+    public interface IWeatherUserRepository: IBaseRepository<WeatherUsers>
     { 
     }
 }
