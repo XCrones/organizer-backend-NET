@@ -13,6 +13,8 @@ namespace organizer_backend_NET.Inits
             builder.Services.AddScoped<ICalendarService, CalendarService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IHttpClientService, HttpClientService>();
+            builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
+            builder.Services.AddScoped<IOpenWeatherService, OpenWeatherService>();
         }
     }
 }
