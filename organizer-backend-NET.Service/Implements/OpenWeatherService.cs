@@ -20,13 +20,13 @@ namespace organizer_backend_NET.Service.Implements
             _httpClientService = httpClientService;
         }
 
-        private async Task<ForecastViewModel?> FetchForecast(string queries)
+        private async Task<WeatherForecastViewModel?> FetchForecast(string queries)
         {
-            var result = await _httpClientService.Get<ForecastViewModel?>($"{_urlApi}/forecast/?{queries}&units=metric&appid={_token}");
+            var result = await _httpClientService.Get<WeatherForecastViewModel?>($"{_urlApi}/forecast/?{queries}&units=metric&appid={_token}");
             return result;
         }
 
-        public async Task<IBaseResponse<ForecastViewModel>> FetchByGeo(int lat, int lon)
+        public async Task<IBaseResponse<WeatherForecastViewModel>> FetchByGeo(int lat, int lon)
         {
             try
             {
@@ -34,14 +34,14 @@ namespace organizer_backend_NET.Service.Implements
 
                 if (response != null && response.cod == "200")
                 {
-                    return new BaseResponse<ForecastViewModel>()
+                    return new BaseResponse<WeatherForecastViewModel>()
                     {
                         StatusCode = HttpStatusCode.OK,
                         Data = response
                     };
                 }
 
-                return new BaseResponse<ForecastViewModel>()
+                return new BaseResponse<WeatherForecastViewModel>()
                 {
                     StatusCode = HttpStatusCode.BadRequest,
                     Data = response
@@ -49,7 +49,7 @@ namespace organizer_backend_NET.Service.Implements
             }
             catch (Exception ex)
             {
-                return new BaseResponse<ForecastViewModel>()
+                return new BaseResponse<WeatherForecastViewModel>()
                 {
                     Description = $"[FetchByGeo] : {ex.Message}",
                     StatusCode = HttpStatusCode.InternalServerError,
@@ -57,7 +57,7 @@ namespace organizer_backend_NET.Service.Implements
             }
         }
 
-        public async Task<IBaseResponse<ForecastViewModel>> FetchByName(string nameCity)
+        public async Task<IBaseResponse<WeatherForecastViewModel>> FetchByName(string nameCity)
         {
             try
             {
@@ -65,14 +65,14 @@ namespace organizer_backend_NET.Service.Implements
 
                 if (response != null && response.cod == "200")
                 {
-                    return new BaseResponse<ForecastViewModel>()
+                    return new BaseResponse<WeatherForecastViewModel>()
                     {
                         StatusCode = HttpStatusCode.OK,
                         Data = response
                     };
                 }
 
-                return new BaseResponse<ForecastViewModel>()
+                return new BaseResponse<WeatherForecastViewModel>()
                 {
                     StatusCode = HttpStatusCode.BadRequest,
                     Data = response
@@ -80,7 +80,7 @@ namespace organizer_backend_NET.Service.Implements
             }
             catch (Exception ex)
             {
-                return new BaseResponse<ForecastViewModel>()
+                return new BaseResponse<WeatherForecastViewModel>()
                 {
                     Description = $"[FetchByName] : {ex.Message}",
                     StatusCode = HttpStatusCode.InternalServerError,

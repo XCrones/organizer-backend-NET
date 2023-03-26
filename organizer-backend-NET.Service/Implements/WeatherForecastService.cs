@@ -33,7 +33,7 @@ namespace organizer_backend_NET.Service.Implements
             return await _repository.Read().FirstOrDefaultAsync(item => item.city.name == nameCapitalize.Trim() && item.DeleteAt == null);
         }
 
-        private async Task<IBaseResponse<WeatherForecast>> CreateItem (ForecastViewModel model)
+        private async Task<IBaseResponse<WeatherForecast>> CreateItem (WeatherForecastViewModel model)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace organizer_backend_NET.Service.Implements
             }
         }
 
-        private async Task<IBaseResponse<WeatherForecast>> UpdateItem(WeatherForecast target , ForecastViewModel model) {
+        private async Task<IBaseResponse<WeatherForecast>> UpdateItem(WeatherForecast target , WeatherForecastViewModel model) {
             try
             {
                 target.list = model.list;

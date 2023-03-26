@@ -3,7 +3,7 @@ using organizer_backend_NET.Domain.Entity;
 
 namespace organizer_backend_NET.Domain.ViewModel
 {
-    public class ForecastViewModel
+    public class WeatherForecastViewModel
     {
         public string cod { get; set; }
 
