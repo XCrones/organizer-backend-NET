@@ -76,15 +76,19 @@ namespace organizer_backend_NET.Implements.Services
             {
                 var itemResponse = await _repository.Read().FirstOrDefaultAsync(item => item.Email == model.Email && item.DeleteAt == null);
 
-                //! check password
 
                 if (itemResponse != null)
                 {
-                    return new BaseResponse<User>()
+                    var pass = HashPasswordHelper.HashPassword(model.Password);
+
+                    if (pass == itemResponse.Password)
                     {
-                        StatusCode = HttpStatusCode.OK,
-                        Data = itemResponse,
-                    };
+                        return new BaseResponse<User>()
+                        {
+                            StatusCode = HttpStatusCode.OK,
+                            Data = itemResponse,
+                        };
+                    }
                 }
 
                 return new BaseResponse<User>()
