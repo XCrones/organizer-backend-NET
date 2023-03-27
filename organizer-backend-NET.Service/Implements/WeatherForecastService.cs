@@ -21,9 +21,9 @@ namespace organizer_backend_NET.Service.Implements
             _repository = weatherForecastRepository;
         }
 
-        private async Task<WeatherForecast?> SearchByGeoCity(int lat, int lon)
+        private async Task<WeatherForecast?> SearchByGeoCity(SearchCityByGeoViewModel model)
         {
-            return await _repository.Read().FirstOrDefaultAsync(item => item.city.coord.lat == lat && item.city.coord.lon == lon && item.DeleteAt == null);
+            return await _repository.Read().FirstOrDefaultAsync(item => item.city.coord.lat == model.Lat && item.city.coord.lon == model.Lon && item.DeleteAt == null);
         }
 
         private async Task<WeatherForecast?> SearchByNameCity(string cityName)
@@ -92,11 +92,11 @@ namespace organizer_backend_NET.Service.Implements
             }
         }
 
-        public async Task<IBaseResponse<WeatherForecast>> SearchByGeo(int lat, int lon)
+        public async Task<IBaseResponse<WeatherForecast>> SearchByGeo(SearchCityByGeoViewModel model)
         {
             try
             {
-                var uniqCityGeo = await SearchByGeoCity(lat, lon);
+                var uniqCityGeo = await SearchByGeoCity(model);
 
                 if (uniqCityGeo != null)
                 {
@@ -113,7 +113,7 @@ namespace organizer_backend_NET.Service.Implements
                     }
                 }
 
-                var response = await _openWeatherService.FetchByGeo(lat, lon);
+                var response = await _openWeatherService.FetchByGeo(model);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -246,6 +246,39 @@ namespace organizer_backend_NET.Service.Implements
                 return new BaseResponse<WeatherForecast>()
                 {
                     Description = $"[SearchByName] : {ex.Message}",
+                    StatusCode = HttpStatusCode.InternalServerError,
+                };
+            }
+        }
+
+        public async Task<IBaseResponse<WeatherForecast>> GetByCityId(int cityId)
+        {
+            try
+            {
+                Console.WriteLine(cityId + " cityId");
+
+                var response = await _repository.Read().FirstOrDefaultAsync(item => item.city.id == cityId && item.DeleteAt == null);
+
+                if (response != null)
+                {
+                    return new BaseResponse<WeatherForecast>()
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Data = response,
+                    };
+                }
+
+                return new BaseResponse<WeatherForecast>()
+                {
+                    StatusCode = HttpStatusCode.NotFound,
+                    Description = AppMessages.NotFound,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<WeatherForecast>()
+                {
+                    Description = $"[GetByCityId] : {ex.Message}",
                     StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
