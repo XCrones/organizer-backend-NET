@@ -26,11 +26,11 @@ namespace organizer_backend_NET.Service.Implements
             return result;
         }
 
-        public async Task<IBaseResponse<WeatherForecastViewModel>> FetchByGeo(int lat, int lon)
+        public async Task<IBaseResponse<WeatherForecastViewModel>> FetchByGeo(SearchCityByGeoViewModel model)
         {
             try
             {
-                var response = await FetchForecast($"lat={lat}&lon={lon}");
+                var response = await FetchForecast($"lat={model.Lat}&lon={model.Lon}");
 
                 if (response != null && response.cod == "200")
                 {

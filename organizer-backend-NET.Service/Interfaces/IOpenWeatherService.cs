@@ -7,6 +7,6 @@ namespace organizer_backend_NET.Service.Interfaces
     {
         public Task<IBaseResponse<WeatherForecastViewModel>> FetchByName(string nameCity);
 
-        public Task<IBaseResponse<WeatherForecastViewModel>> FetchByGeo(int lat, int lon);
+        public Task<IBaseResponse<WeatherForecastViewModel>> FetchByGeo(SearchCityByGeoViewModel model);
     }
 }
