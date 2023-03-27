@@ -24,5 +24,7 @@
 
         public static string NoNeedToUpdate = "No need to update";
 
+        public static string CityNotFound = "City not found";
+
     }
 }
