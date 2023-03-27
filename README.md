@@ -2,6 +2,7 @@
 
 ## технологии:
 
+- .NET 6,
 - ASP.NET Web API,
 - Entity Framework,
 - Microsoft.AspNetCore.Authentication.JwtBearer,
