@@ -10,10 +10,8 @@ namespace organizer_backend_NET.Service.Implements
     {
         private readonly IHttpClientService _httpClientService;
 
-        private readonly string _token = "c42021649078332395ebebbbd1302a0d";
+        private readonly string _apiKey = "YOR_API_KEY";
         private readonly string _urlApi = "https://api.openweathermap.org/data/2.5";
-        // private readonly string _urlIcon = "http://openweathermap.org/img/wn";
-        // private readonly string _prefixIcon = "@2x.png";
 
         public OpenWeatherService(IHttpClientService httpClientService)
         {
@@ -22,7 +20,7 @@ namespace organizer_backend_NET.Service.Implements
 
         private async Task<WeatherForecastViewModel?> FetchForecast(string queries)
         {
-            var result = await _httpClientService.Get<WeatherForecastViewModel?>($"{_urlApi}/forecast/?{queries}&units=metric&appid={_token}");
+            var result = await _httpClientService.Get<WeatherForecastViewModel?>($"{_urlApi}/forecast/?{queries}&units=metric&appid={_apiKey}");
             return result;
         }
 
