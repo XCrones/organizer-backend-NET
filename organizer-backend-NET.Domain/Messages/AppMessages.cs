@@ -19,5 +19,12 @@
         public static string IncorrectEmilOrPassword = "Incorrect email or password";
 
         public static string UserNotFound = "User not found";
+
+        public static string ErrorSave = "Error save";
+
+        public static string NoNeedToUpdate = "No need to update";
+
+        public static string CityNotFound = "City not found";
+
     }
 }

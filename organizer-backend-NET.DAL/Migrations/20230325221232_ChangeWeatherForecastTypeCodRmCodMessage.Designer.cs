@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using organizer_backend_NET.DAL;
@@ -13,9 +14,11 @@ using organizer_backend_NET.Domain.Entity;
 namespace organizer_backend_NET.DAL.Migrations
 {
     [DbContext(typeof(AppContextDb))]
-    partial class AppContextDbModelSnapshot : ModelSnapshot
+    [Migration("20230325221232_ChangeWeatherForecastTypeCodRmCodMessage")]
+    partial class ChangeWeatherForecastTypeCodRmCodMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,47 +192,7 @@ namespace organizer_backend_NET.DAL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("organizer_backend_NET.Domain.Entity.WeatherForecast", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("Id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("CreatedAt");
-
-                    b.Property<DateTime?>("DeleteAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("DeleteAt");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("UpdatedAt");
-
-                    b.Property<CityForecast>("city")
-                        .IsRequired()
-                        .HasColumnType("jsonb")
-                        .HasColumnName("city");
-
-                    b.Property<int>("cnt")
-                        .HasColumnType("integer")
-                        .HasColumnName("cnt");
-
-                    b.Property<List<WeatherItem>>("list")
-                        .IsRequired()
-                        .HasColumnType("jsonb")
-                        .HasColumnName("list");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WeatherForecasts");
-                });
-
-            modelBuilder.Entity("organizer_backend_NET.Domain.Entity.WeatherUsers", b =>
+            modelBuilder.Entity("organizer_backend_NET.Domain.Entity.UserWeather", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -263,7 +226,47 @@ namespace organizer_backend_NET.DAL.Migrations
 
                     b.HasIndex("UId");
 
-                    b.ToTable("WeatherUsers");
+                    b.ToTable("UserWeathers");
+                });
+
+            modelBuilder.Entity("organizer_backend_NET.Domain.Entity.WeatherForecast", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("Id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<DateTime?>("DeleteAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DeleteAt");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("UpdatedAt");
+
+                    b.Property<CityForecast>("city")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("city");
+
+                    b.Property<int>("cnt")
+                        .HasColumnType("integer")
+                        .HasColumnName("cnt");
+
+                    b.Property<List<WeatherItem>>("weather")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("weather");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WeatherForecasts");
                 });
 
             modelBuilder.Entity("organizer_backend_NET.Domain.Entity.Calendar", b =>
@@ -288,7 +291,7 @@ namespace organizer_backend_NET.DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("organizer_backend_NET.Domain.Entity.WeatherUsers", b =>
+            modelBuilder.Entity("organizer_backend_NET.Domain.Entity.UserWeather", b =>
                 {
                     b.HasOne("organizer_backend_NET.Domain.Entity.User", "User")
                         .WithMany("WeatherUser")

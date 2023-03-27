@@ -15,7 +15,7 @@ namespace organizer_backend_NET.DAL
 
         public DbSet<WeatherForecast> ForecastDB { get; set; }
 
-        public DbSet<UserWeather> WeatherUserDB { get; set; }
+        public DbSet<WeatherUsers> WeatherUserDB { get; set; }
 
         public DbSet<User> UserDB { get; set; }
     }

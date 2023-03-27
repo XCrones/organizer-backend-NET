@@ -1,5 +1,7 @@
 ﻿using organizer_backend_NET.Implements.Interfaces;
 using organizer_backend_NET.Implements.Services;
+using organizer_backend_NET.Service.Implements;
+using organizer_backend_NET.Service.Interfaces;
 
 namespace organizer_backend_NET.Inits
 {
@@ -10,6 +12,10 @@ namespace organizer_backend_NET.Inits
             builder.Services.AddScoped<ITodoService, TodoService>();
             builder.Services.AddScoped<ICalendarService, CalendarService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IHttpClientService, HttpClientService>();
+            builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
+            builder.Services.AddScoped<IOpenWeatherService, OpenWeatherService>();
+            builder.Services.AddScoped<IWeatherUserService, WeatherUserService>();
         }
     }
 }

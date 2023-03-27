@@ -10,17 +10,11 @@ namespace organizer_backend_NET.Domain.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Column("cod")]
-        public string cod { get; set; }
-
-        [Column("message")]
-        public int message { get; set; }
-
         [Column("cnt")]
         public int cnt { get; set; }
 
-        [Column("weather", TypeName = "jsonb")]
-        public List<WeatherItem> weather { get; set; }
+        [Column("list", TypeName = "jsonb")]
+        public List<WeatherItem> list { get; set; }
 
         [Column("city", TypeName = "jsonb")]
         public CityForecast city { get; set; }
@@ -58,9 +52,9 @@ namespace organizer_backend_NET.Domain.Entity
 
     public class Coord
     {
-        public int lat { get; set; }
+        public float lat { get; set; }
 
-        public int lon { get; set; }
+        public float lon { get; set; }
     }
 
     public class WeatherItem
@@ -71,9 +65,9 @@ namespace organizer_backend_NET.Domain.Entity
 
         public List<Weather> weather { get; set; }
 
-        public Clouds clouds { get; set; }
+        public Clouds? clouds { get; set; }
 
-        public Wind wind { get; set; }
+        public Wind? wind { get; set; }
 
         public Rain rain { get; set; }
 
@@ -81,7 +75,7 @@ namespace organizer_backend_NET.Domain.Entity
 
         public int visibility { get; set; }
 
-        public int pop { get; set; }
+        public float pop { get; set; }
 
         public Sys sys { get; set; }
 
@@ -90,23 +84,23 @@ namespace organizer_backend_NET.Domain.Entity
 
     public class Main
     {
-        public int temp { get; set; }
+        public float temp { get; set; }
 
         public int humidity { get; set; }
 
         public int pressure { get; set; }
 
-        public int temp_max { get; set; }
+        public float temp_max { get; set; }
 
-        public int temp_min { get; set; }
+        public float temp_min { get; set; }
 
         public int sea_level { get; set; }
 
-        public int feels_like { get; set; }
+        public float feels_like { get; set; }
 
         public int grnd_level { get; set; }
 
-        public int temp_kf { get; set; }
+        public float temp_kf { get; set; }
     }
 
     public class Weather
@@ -122,16 +116,16 @@ namespace organizer_backend_NET.Domain.Entity
 
     public class Clouds
     {
-        public int all { get; set; }
+        public float all { get; set; }
     }
 
     public class Wind
     {
-        public int speed { get; set; }
+        public float? speed { get; set; }
 
-        public int deg { get; set; }
+        public float? deg { get; set; }
 
-        public int gust { get; set; }
+        public float? gust { get; set; }
     }
 
     public class Sys
@@ -141,16 +135,16 @@ namespace organizer_backend_NET.Domain.Entity
 
     public class Snow
     {
-        public int h1 { get; set; }
+        public float h1 { get; set; }
 
-        public int h3 { get; set; }
+        public float h3 { get; set; }
     }
 
     public class Rain
     {
-        public int h1 { get; set; }
+        public float h1 { get; set; }
 
-        public int h3 { get; set; }
+        public float h3 { get; set; }
     }
 }
 

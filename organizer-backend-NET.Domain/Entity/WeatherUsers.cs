@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace organizer_backend_NET.Domain.Entity
 {
-    [Table("UserWeathers")]
-    public class UserWeather : IBaseEntity, IUId
+    [Table("WeatherUsers")]
+    public class WeatherUsers : IBaseEntity, IUId
     {
         [Column("Id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
