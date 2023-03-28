@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using organizer_backend_NET.Domain.Entity;
+using organizer_backend_NET.Domain.Response;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Implements.Interfaces;
 using organizer_backend_NET.Response;
@@ -18,9 +19,12 @@ namespace organizer_backend_NET.Controllers
     {
         private readonly IUserService _userService;
         private readonly JWTSettings _options;
+        private readonly ILogger<LoginController> _logger;
 
-        public LoginController(IUserService userService, IOptions<JWTSettings> optAccess)
+        public LoginController(IUserService userService, IOptions<JWTSettings> optAccess, ILogger<LoginController> logger)
         {
+            _logger = logger;
+            _logger.LogDebug(1, "NLog injected into LoginController");
             _userService = userService;
             _options = optAccess.Value;
         }
@@ -65,7 +69,12 @@ namespace organizer_backend_NET.Controllers
             return Created("", new LoginResponse {
                 Code = result.StatusCode,
                 Message = result.Description,
-                Data = result.Data,
+                Data = new SignResponse()
+                {
+                    Email = result.Data.Email,
+                    Name = result.Data.Name,
+                    UrlAvatar = result.Data.UrlAvatar,
+                },
                 Token = token
             });
         }
@@ -77,7 +86,7 @@ namespace organizer_backend_NET.Controllers
 
             if (result.StatusCode != HttpStatusCode.OK)
             {
-                return BadRequest(new ActionResponse<User>
+                return BadRequest(new ActionResponse<SignResponse>
                 {
                     Message = result.Description,
                     Code = result.StatusCode,
@@ -90,7 +99,11 @@ namespace organizer_backend_NET.Controllers
             {
                 Code = result.StatusCode,
                 Message = result.Description,
-                Data = result.Data,
+                Data = new SignResponse() {
+                    Email = result.Data.Email,
+                    Name = result.Data.Name,
+                    UrlAvatar = result.Data.UrlAvatar,
+                },
                 Token = token
             });
         }
