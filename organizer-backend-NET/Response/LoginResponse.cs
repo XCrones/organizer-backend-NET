@@ -1,4 +1,5 @@
 ﻿using organizer_backend_NET.Domain.Entity;
+using organizer_backend_NET.Domain.Response;
 using System.Net;
 
 namespace organizer_backend_NET.Response
@@ -9,7 +10,7 @@ namespace organizer_backend_NET.Response
 
         public string? Message { get; set; }
 
-        public User Data { get; set; }
+        public SignResponse Data { get; set; }
 
         public string Token { get; set; }
     }
