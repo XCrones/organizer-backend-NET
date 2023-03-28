@@ -54,7 +54,7 @@ namespace organizer_backend_NET.Controllers
 
                 if (result.StatusCode == HttpStatusCode.Created)
                 {
-                    return Created("", new ActionResponse<WeatherForecast> {
+                    return Created("", new ActionResponse<CityWeather> {
                         Code = result.StatusCode,
                         Message = result.Description,
                         Data = result.Data
@@ -63,7 +63,7 @@ namespace organizer_backend_NET.Controllers
 
                 if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Ok(new ActionResponse<WeatherForecast>
+                    return Ok(new ActionResponse<CityWeather>
                     {
                         Code = result.StatusCode,
                         Message = result.Description,
@@ -71,7 +71,7 @@ namespace organizer_backend_NET.Controllers
                     });
                 }
 
-                return BadRequest(new ActionResponse<WeatherForecast>
+                return BadRequest(new ActionResponse<CityWeather>
                 {
                     Message = result.Description,
                     Code = result.StatusCode,
@@ -95,7 +95,7 @@ namespace organizer_backend_NET.Controllers
 
                 if (result.StatusCode == HttpStatusCode.Created)
                 {
-                    return Created("", new ActionResponse<WeatherForecast>
+                    return Created("", new ActionResponse<CityWeather>
                     {
                         Code = result.StatusCode,
                         Message = result.Description,
@@ -105,7 +105,7 @@ namespace organizer_backend_NET.Controllers
 
                 if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    return Ok(new ActionResponse<WeatherForecast>
+                    return Ok(new ActionResponse<CityWeather>
                     {
                         Code = result.StatusCode,
                         Message = result.Description,
@@ -113,7 +113,7 @@ namespace organizer_backend_NET.Controllers
                     });
                 }
 
-                return BadRequest(new ActionResponse<WeatherForecast>
+                return BadRequest(new ActionResponse<CityWeather>
                 {
                     Message = result.Description,
                     Code = result.StatusCode,
@@ -138,6 +138,16 @@ namespace organizer_backend_NET.Controllers
                 if (result.StatusCode == HttpStatusCode.OK)
                 {
                     return Ok(new ActionResponse<List<CityWeather>>
+                    {
+                        Code = result.StatusCode,
+                        Message = result.Description,
+                        Data = result.Data
+                    });
+                }
+
+                if (result.StatusCode == HttpStatusCode.Created)
+                {
+                    return Created("", new ActionResponse<List<CityWeather>>
                     {
                         Code = result.StatusCode,
                         Message = result.Description,
