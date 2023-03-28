@@ -10,8 +10,8 @@ namespace organizer_backend_NET.Service.Interfaces
 
         public Task<IBaseResponse<bool>> RemoveItem(int UId, int cityId);
 
-        public Task<IBaseResponse<WeatherForecast>> SearchByCityName(int UId, string name);
+        public Task<IBaseResponse<CityWeather>> SearchByCityName(int UId, string name);
 
-        public Task<IBaseResponse<WeatherForecast>> SearchByCityGeo(int UId, SearchCityByGeoViewModel model);
+        public Task<IBaseResponse<CityWeather>> SearchByCityGeo(int UId, SearchCityByGeoViewModel model);
     }
 }
