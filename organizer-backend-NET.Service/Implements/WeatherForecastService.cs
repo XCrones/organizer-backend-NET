@@ -224,6 +224,7 @@ namespace organizer_backend_NET.Service.Implements
                     };
                 }
 
+
                 var resultUpdate = await UpdateItem(uniqCity, response.Data);
 
                 if (resultUpdate.StatusCode == HttpStatusCode.OK)
