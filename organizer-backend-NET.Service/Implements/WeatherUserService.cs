@@ -7,6 +7,7 @@ using organizer_backend_NET.Domain.Response;
 using organizer_backend_NET.Domain.ViewModel;
 using organizer_backend_NET.Service.Interfaces;
 using System.Net;
+using System.Xml.Linq;
 
 namespace organizer_backend_NET.Service.Implements
 {
@@ -58,10 +59,22 @@ namespace organizer_backend_NET.Service.Implements
 
                 if (itemsResponse == null)
                 {
+                    DateTime timeStamp = DateTime.UtcNow;
+
+                    var newItem = new WeatherUsers()
+                    {
+                        UId = UId,
+                        Cities = new List<CityWeather>(),
+                        CreatedAt = timeStamp,
+                        UpdatedAt = timeStamp,
+                    };
+
+                    await _repository.Create(newItem);
+
                     return new BaseResponse<List<CityWeather>>()
                     {
-                        Description = AppMessages.NotFound,
-                        StatusCode = HttpStatusCode.NotFound,
+                        StatusCode = HttpStatusCode.Created,
+                        Data = newItem.Cities,
                     };
                 }
 
@@ -74,7 +87,7 @@ namespace organizer_backend_NET.Service.Implements
             {
                 return new BaseResponse<List<CityWeather>>()
                 {
-                    Description = $"[GetAll] : {ex.Message}",
+                    Description = $"[GetCities] : {ex.Message}",
                     StatusCode = HttpStatusCode.InternalServerError,
                 };
             }
@@ -129,15 +142,16 @@ namespace organizer_backend_NET.Service.Implements
             }
         }
 
-        public async Task<IBaseResponse<WeatherForecast>> SearchByCityName(int UId, string name)
+        public async Task<IBaseResponse<CityWeather>> SearchByCityName(int UId, string name)
         {
             try
             {
-                var forecastSeacrh = await _weatherForecastService.SearchByName(name);
+                 var forecastSeacrh = await _weatherForecastService.SearchByName(name);
 
                 if (forecastSeacrh.StatusCode == HttpStatusCode.OK)
                 {
                     DateTime timeStamp = DateTime.UtcNow;
+
                     var city = new CityWeather()
                     {
                         id = forecastSeacrh.Data.city.id,
@@ -153,11 +167,11 @@ namespace organizer_backend_NET.Service.Implements
 
                         if (searchCity != null)
                         {
-                            return new BaseResponse<WeatherForecast>()
+                            return new BaseResponse<CityWeather>()
                             {
                                 StatusCode = HttpStatusCode.OK,
                                 Description = AppMessages.NoNeedToUpdate,
-                                Data = forecastSeacrh.Data
+                                Data = searchCity
                             };
                         }
 
@@ -166,11 +180,11 @@ namespace organizer_backend_NET.Service.Implements
 
                         var response = await _repository.Update(weatherUser.Data);
 
-                        return new BaseResponse<WeatherForecast>()
+                        return new BaseResponse<CityWeather>()
                         {
                             Description = AppMessages.UpdateSucces,
                             StatusCode = HttpStatusCode.OK,
-                            Data = forecastSeacrh.Data,
+                            Data = city,
                         };
                     }
 
@@ -186,15 +200,15 @@ namespace organizer_backend_NET.Service.Implements
 
                     await _repository.Create(newItem);
 
-                    return new BaseResponse<WeatherForecast>()
+                    return new BaseResponse<CityWeather>()
                     {
                         StatusCode = HttpStatusCode.Created,
                         Description = AppMessages.CreateSucces,
-                        Data = forecastSeacrh.Data
+                        Data = city
                     };
                 }
 
-                return new BaseResponse<WeatherForecast>()
+                return new BaseResponse<CityWeather>()
                 {
                     StatusCode = HttpStatusCode.BadRequest,
                     Description = forecastSeacrh.Description,
@@ -202,7 +216,7 @@ namespace organizer_backend_NET.Service.Implements
             }
             catch (Exception ex)
             {
-                return new BaseResponse<WeatherForecast>()
+                return new BaseResponse<CityWeather>()
                 {
                     Description = $"[SearchByCityName] : {ex.Message}",
                     StatusCode = HttpStatusCode.InternalServerError,
@@ -210,7 +224,7 @@ namespace organizer_backend_NET.Service.Implements
             }
         }
 
-        public async Task<IBaseResponse<WeatherForecast>> SearchByCityGeo(int UId, SearchCityByGeoViewModel model)
+        public async Task<IBaseResponse<CityWeather>> SearchByCityGeo(int UId, SearchCityByGeoViewModel model)
         {
             try
             {
@@ -219,6 +233,7 @@ namespace organizer_backend_NET.Service.Implements
                 if (forecastSeacrh.StatusCode == HttpStatusCode.OK)
                 {
                     DateTime timeStamp = DateTime.UtcNow;
+
                     var city = new CityWeather()
                     {
                         id = forecastSeacrh.Data.city.id,
@@ -234,11 +249,11 @@ namespace organizer_backend_NET.Service.Implements
 
                         if (searchCity != null)
                         {
-                            return new BaseResponse<WeatherForecast>()
+                            return new BaseResponse<CityWeather>()
                             {
                                 StatusCode = HttpStatusCode.OK,
                                 Description = AppMessages.NoNeedToUpdate,
-                                Data = forecastSeacrh.Data
+                                Data = searchCity
                             };
                         }
 
@@ -247,11 +262,11 @@ namespace organizer_backend_NET.Service.Implements
 
                         var response = await _repository.Update(weatherUser.Data);
 
-                        return new BaseResponse<WeatherForecast>()
+                        return new BaseResponse<CityWeather>()
                         {
                             Description = AppMessages.UpdateSucces,
                             StatusCode = HttpStatusCode.OK,
-                            Data = forecastSeacrh.Data,
+                            Data = city,
                         };
                     }
 
@@ -267,15 +282,15 @@ namespace organizer_backend_NET.Service.Implements
 
                     await _repository.Create(newItem);
 
-                    return new BaseResponse<WeatherForecast>()
+                    return new BaseResponse<CityWeather>()
                     {
                         StatusCode = HttpStatusCode.Created,
                         Description = AppMessages.CreateSucces,
-                        Data = forecastSeacrh.Data
+                        Data = city
                     };
                 }
 
-                return new BaseResponse<WeatherForecast>()
+                return new BaseResponse<CityWeather>()
                 {
                     StatusCode = HttpStatusCode.BadRequest,
                     Description = forecastSeacrh.Description,
@@ -283,7 +298,7 @@ namespace organizer_backend_NET.Service.Implements
             }
             catch (Exception ex)
             {
-                return new BaseResponse<WeatherForecast>()
+                return new BaseResponse<CityWeather>()
                 {
                     Description = $"[SearchByCityName] : {ex.Message}",
                     StatusCode = HttpStatusCode.InternalServerError,
