@@ -20,7 +20,6 @@ namespace organizer_backend_NET.Domain.ViewModel
         [Compare("Password")]
         public string ComparePassword { get; set; }
 
-        [Required]
         [DataType(DataType.Url)]
         public string? UrlAvatar { get; set; }
     }
